@@ -8,6 +8,6 @@ import { FormGroup } from '@angular/forms';
 })
 export class LoginComponent {
 
-  constructor(private fb: FormGroup) {}
+  // constructor(private fb: FormGroup) {}
 
 }

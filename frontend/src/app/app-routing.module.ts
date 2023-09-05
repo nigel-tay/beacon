@@ -8,7 +8,7 @@ import { MyProfileComponent } from './components/my-profile/my-profile.component
 import { PetProfileComponent } from './components/pet-profile/pet-profile.component';
 
 const routes: Routes = [
-  {path: "", component: LoginComponent},
+  {path: "login", component: LoginComponent},
   {path: "about", component: AboutComponent},
   {path: "boards", component: BoardsComponent},
   {path: "reports", component: ReportsComponent},
