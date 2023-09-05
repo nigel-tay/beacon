@@ -1,9 +1,25 @@
 <div class="flex justify-between h-20 bg-yellow-primary">
     <img class="py-2 pl-8 hover:cursor-pointer" src="/assets/images/navbar_icon.png" alt="Navbar Icon">
     <div class="flex items-center align-middle">
-        <p class="text-2xl hover:cursor-pointer hover:underline underline-offset-8">About</p>
-        <p class="text-2xl ml-14 hover:cursor-pointer hover:underline underline-offset-8">Boards</p>
-        <p class="text-2xl ml-14 hover:cursor-pointer hover:underline underline-offset-8">Reports</p>
-        <p class="text-2xl ml-14 mr-8 hover:cursor-pointer hover:underline underline-offset-8">Profile</p>
+        <div class="hover:cursor-pointer hover:underline underline-offset-8">
+            <p class="text-2xl">About</p>
+        </div>
+        <div class="ml-14 hover:cursor-pointer hover:underline underline-offset-8">
+            <p class="text-2xl">Boards</p>
+        </div>
+        <div class="ml-14 hover:cursor-pointer hover:underline underline-offset-8">
+            <p class="text-2xl">Reports</p>
+        </div>
+        <div class="ml-14 mr-8 hover:cursor-pointer hover:underline underline-offset-8 dropdown">
+            <p class="text-2xl">Profile</p>
+            <div class="dropdown-container">
+                <div class="dropdown-spacing"></div>
+                <div class="dropdown-content bg-yellow-primary">
+                    <p class="text-2xl hover:underline underline-offset-8">My Profile</p>
+                    <p class="text-2xl hover:underline underline-offset-8">Pet Profile</p>
+                    <p class="text-2xl hover:underline underline-offset-8">Logout</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
