@@ -14,6 +14,8 @@ import { MyProfileComponent } from './components/my-profile/my-profile.component
 import { PetProfileComponent } from './components/pet-profile/pet-profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegisterComponent } from './components/register/register.component';
+import { StoreModule } from '@ngrx/store';
+import { viewwidthReducer } from './state/viewwidth/viewwidth.reducer';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { RegisterComponent } from './components/register/register.component';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatIconModule
+    MatIconModule,
+    StoreModule.forRoot({viewWidth: viewwidthReducer})
   ],
   providers: [],
   bootstrap: [AppComponent]
