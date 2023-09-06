@@ -13,6 +13,7 @@ import { ReportsComponent } from './components/reports/reports.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
 import { PetProfileComponent } from './components/pet-profile/pet-profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BoardsComponent,
     ReportsComponent,
     MyProfileComponent,
-    PetProfileComponent
+    PetProfileComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

@@ -6,9 +6,11 @@ import { BoardsComponent } from './components/boards/boards.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
 import { PetProfileComponent } from './components/pet-profile/pet-profile.component';
+import { RegisterComponent } from './components/register/register.component';
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
+  {path: "register", component: RegisterComponent},
   {path: "about", component: AboutComponent},
   {path: "boards", component: BoardsComponent},
   {path: "reports", component: ReportsComponent},
