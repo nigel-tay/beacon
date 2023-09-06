@@ -38,10 +38,41 @@ $frontend-theme: mat.define-light-theme((
 @tailwind components;
 @tailwind utilities;
 
+html { height: 100%; }
 body {
     background-image: url('/assets/images/background.png');
     font-family: 'DM Serif Text', serif;
     font-family: 'Lora', serif;
+    margin: 0;
+    height: 100%
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.blue-button {
+  cursor: pointer;
+  text-align:center;
+  border: solid black 1px;
+  background-size: 300% 100%;
+  border-radius: 50%;
+  -moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+
+  &:hover {
+    background-position: 100% 0;
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+    background-image: linear-gradient(to right, #82c1f8, #72bcfd, #B1D9FD);
+  }
+
+  &:focus {
+    background-position: 100% 0;
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+    background-image: linear-gradient(to right, #82c1f8, #72bcfd, #B1D9FD);
+  }
+}

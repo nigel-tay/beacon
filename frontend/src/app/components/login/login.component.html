@@ -1,16 +1,19 @@
 <div class="flex items-center flex-col h-[90vh]">
     <div class="flex flex-col justify-items-center items-center mt-40">
         <img src="/assets/images/login_logo.svg" alt="beacon logo">
-        <h1 class="text-4xl font-bold">Beacon</h1>
+        <h1 class="text-4xl">Beacon</h1>
     </div>
     <div class="flex flex-col justify-center items-center mt-12">
-        <div class="bg-yellow-primary w-[350px] h-16 rounded-full flex items-center">
+        <div class="bg-yellow-primary w-[350px] h-16 rounded-full flex items-center border">
             <mat-icon class="ml-5 scale-150">account_circle</mat-icon>
             <input type="text" class="ml-5 w-[75%] h-4/5 text-2xl bg-yellow-primary focus:outline-none" placeholder="username">
         </div>
-        <div class="mt-5 bg-yellow-primary w-[350px] h-16 rounded-full flex items-center">
+        <div class="mt-5 bg-yellow-primary w-[350px] h-16 rounded-full flex items-center border">
             <mat-icon class="ml-5 scale-150">lock</mat-icon>
             <input type="text" class="ml-5 w-[75%] h-4/5 text-2xl bg-yellow-primary focus:outline-none" placeholder="password">
+            <button type="button" class="flex justify-center items-center p-2 bg-blue-button ml-2 mr-3 blue-button">
+                <mat-icon>login</mat-icon>
+            </button>
         </div>
     </div>
 </div>
