@@ -41,12 +41,10 @@ export class RegisterComponent implements OnInit, AfterViewInit{
 
   initialiseRegisterForm() {
     this.registerForm = this.fb.group({
-      username: this.fb.control('', Validators.required),
-      password: this.fb.control('', Validators.required),
-      email: this.fb.control('', Validators.required),
+      username: this.fb.control('', [Validators.required, Validators.minLength(5)]),
+      password: this.fb.control('', [Validators.required, Validators.minLength(8)]),
+      email: this.fb.control('', [Validators.email, Validators.required]),
       address: this.fb.control(''),
-      lat: this.autocomplete?.getPlace().geometry?.location?.lat(),
-      lng: this.autocomplete?.getPlace().geometry?.location?.lng(),
     })
   }
 
@@ -64,7 +62,6 @@ export class RegisterComponent implements OnInit, AfterViewInit{
   }
 
   handleFormSubmit() {
-    this.user.address = this.registerForm.value.address
     this.user.email = this.registerForm.value.email
     this.user.username = this.registerForm.value.username
     this.user.password = this.registerForm.value.password

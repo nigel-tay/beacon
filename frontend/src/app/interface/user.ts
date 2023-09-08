@@ -1,6 +1,6 @@
 export interface User {
     id: string;
-    address: string;
+    address: string | undefined;
     email: string;
     username: string;
     password: string;

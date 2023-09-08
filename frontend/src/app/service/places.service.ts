@@ -12,8 +12,10 @@ export class PlacesService {
     autocomplete = new google.maps.places.Autocomplete(input.nativeElement);
     autocomplete.addListener('place_changed', () => {
       const place = autocomplete?.getPlace();
+      console.log(place);
       user.lat = place?.geometry?.location?.lat();
       user.lng = place?.geometry?.location?.lng();
+      user.address = place?.formatted_address;
     })
   }
 }
