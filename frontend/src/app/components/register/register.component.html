@@ -13,7 +13,7 @@
             <input #passwordInput [type]="visibility ? 'text': 'password'"
                 class="ml-5 w-[70%] h-4/5 text-2xl bg-yellow-primary focus:outline-none"
                 placeholder="password"
-                formControlName="username">
+                formControlName="password">
             <mat-icon *ngIf="!visibility"class="scale-150 hover:cursor-pointer" (click)="toggleVisibility()">visibility_off</mat-icon>
             <mat-icon *ngIf="visibility" class="scale-150 hover:cursor-pointer" (click)="toggleVisibility()">visibility</mat-icon>
         </div>
@@ -31,7 +31,15 @@
                 placeholder="address (optional)"
                 formControlName="address">
         </div>
-        <button type="button" class="blue-button mt-5 text-2xl py-2 px-6 rounded-full border bg-blue-button  hover:bg-blue-button-hover">
+        <button 
+            type="button"
+            [className]="
+                registerForm.valid ? 
+                'mt-5 text-2xl py-2 px-6 rounded-full border bg-blue-button  hover:bg-blue-button-hover' : 
+                'mt-5 text-2xl py-2 px-6 rounded-full border-grey-border text-grey-text bg-grey hover:cursor-default'
+                "
+            (click)="handleFormSubmit()"
+            [disabled]="!registerForm.valid">
             Sign up
         </button>
         <a [routerLink]="['/login']" class="mt-5 hover:underline hover:text-yellow-primary text-sm">Login instead</a>

@@ -13,6 +13,9 @@ module.exports = {
       'blue-button-hover': '#B1D9FD',
       'pink-accent': '#FD9682',
       'white': '#FFFFFF',
+      'grey': '#DCDCDC',
+      'grey-border': '#D3D3D3',
+      'grey-text': '#C0C0C0'
     }
   },
   plugins: [],

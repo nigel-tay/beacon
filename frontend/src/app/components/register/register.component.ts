@@ -1,5 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from 'src/app/interface/user';
 import { PlacesService } from 'src/app/service/places.service';
 
 @Component({
@@ -7,30 +8,45 @@ import { PlacesService } from 'src/app/service/places.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit{
+export class RegisterComponent implements OnInit, AfterViewInit{
 
   @ViewChild('addressInput', {static: true})
   addressInput!: ElementRef;
 
-  autocomplete: google.maps.places.Autocomplete | undefined;
-
   registerForm!: FormGroup
   visibility: boolean = false;
   contentExists: boolean = false;
+  user!: User;
+
+  autocomplete: google.maps.places.Autocomplete | undefined;
 
   constructor(private fb: FormBuilder, private placesService: PlacesService) {}
-
+  
   ngOnInit(): void {
     this.initialiseRegisterForm();
-    this.placesService.initialisePlacesAutoComplete(this.autocomplete, this.addressInput);
+    this.user = {
+      id: crypto.randomUUID().toString(),
+      address: "",
+      email: "",
+      username: "",
+      password: "",
+      lat: 0,
+      lng: 0,
+    }
+  }
+
+  ngAfterViewInit(): void {
+    this.placesService.initialisePlacesAutoComplete(this.autocomplete, this.addressInput, this.user);
   }
 
   initialiseRegisterForm() {
     this.registerForm = this.fb.group({
       username: this.fb.control('', Validators.required),
       password: this.fb.control('', Validators.required),
-      email: this.fb.control('', [Validators.required, Validators.email]),
-      address: this.fb.control('')
+      email: this.fb.control('', Validators.required),
+      address: this.fb.control(''),
+      lat: this.autocomplete?.getPlace().geometry?.location?.lat(),
+      lng: this.autocomplete?.getPlace().geometry?.location?.lng(),
     })
   }
 
@@ -45,5 +61,13 @@ export class RegisterComponent implements OnInit{
     else {
       this.contentExists = false;
     }
+  }
+
+  handleFormSubmit() {
+    this.user.address = this.registerForm.value.address
+    this.user.email = this.registerForm.value.email
+    this.user.username = this.registerForm.value.username
+    this.user.password = this.registerForm.value.password
+    console.log(this.user);
   }
 }

@@ -4,6 +4,6 @@ export interface User {
     email: string;
     username: string;
     password: string;
-    lat: string;
-    long: string;
+    lat: number | undefined;
+    lng: number | undefined;
 }
