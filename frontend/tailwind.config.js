@@ -12,6 +12,7 @@ module.exports = {
       'blue-button': '#7AB9F2',
       'blue-button-hover': '#B1D9FD',
       'pink-accent': '#FD9682',
+      'white': '#FFFFFF',
     }
   },
   plugins: [],
