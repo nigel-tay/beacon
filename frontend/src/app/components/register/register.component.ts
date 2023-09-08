@@ -19,6 +19,12 @@ export class RegisterComponent implements OnInit{
 
   constructor(private fb: FormBuilder) {}
 
+        // // If you want to move your map center to the searched lat long position. Use below any one
+        // // (with animation)
+        // this.gmap.panTo({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() }); 
+        // // (without animation)
+        // this.gmap.setCenter({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() }); 
+
   ngOnInit(): void {
     this.initialiseRegisterForm();
     this.initialisePlacesAutoComplete();
@@ -28,7 +34,7 @@ export class RegisterComponent implements OnInit{
     this.autocomplete = new google.maps.places.Autocomplete(this.addressInput.nativeElement);
     this.autocomplete.addListener('place_changed', () => {
       const place = this.autocomplete?.getPlace();
-      console.log(place);
+      console.log(place?.geometry?.location?.lat());
     })
   }
 
