@@ -15,6 +15,7 @@ export class RegisterComponent implements OnInit{
 
   registerForm!: FormGroup
   visibility: boolean = false;
+  contentExists: boolean = false;
 
   constructor(private fb: FormBuilder) {}
 
@@ -35,11 +36,21 @@ export class RegisterComponent implements OnInit{
     this.registerForm = this.fb.group({
       username: this.fb.control('', Validators.required),
       password: this.fb.control('', Validators.required),
-      email: this.fb.control('', [Validators.required, Validators.email])
+      email: this.fb.control('', [Validators.required, Validators.email]),
+      address: this.fb.control('')
     })
   }
 
   toggleVisibility() {
     this.visibility = !this.visibility;
+  }
+
+  checkAddressInput() {
+    if (this.addressInput.nativeElement.value.length > 0) {
+      this.contentExists = true;
+    }
+    else {
+      this.contentExists = false;
+    }
   }
 }

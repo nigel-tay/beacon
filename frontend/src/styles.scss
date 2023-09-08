@@ -47,7 +47,6 @@ html, body {
     background-size: cover;
 
     font-family: 'DM Serif Text', serif;
-    font-family: 'Lora', serif;
     margin: 0;
     height: 100%;
     width: 100vw;
@@ -55,11 +54,16 @@ html, body {
 
 // Places autocomplete
 .pac-container {
-  margin-top: 10px;
+  position: absolute;
+  margin-top: -100px;
+  margin-left: 300px;
+  border: solid black 1px;
   border-radius: 15px;
   background-color: #F6E27F;
+  box-shadow: none;
 }
 
 .pac-item {
-  border: none;
+  border: solid black 0.5px;
+  font-family: 'DM Serif Text', serif;
 }
