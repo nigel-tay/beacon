@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -36,6 +37,7 @@ import { viewwidthReducer } from './state/viewwidth/viewwidth.reducer';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatIconModule,
+    GoogleMapsModule,
     StoreModule.forRoot({viewWidth: viewwidthReducer})
   ],
   providers: [],

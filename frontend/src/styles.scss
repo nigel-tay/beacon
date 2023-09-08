@@ -52,3 +52,14 @@ html, body {
     height: 100%;
     width: 100vw;
 }
+
+// Places autocomplete
+.pac-container {
+  margin-top: 10px;
+  border-radius: 15px;
+  background-color: #F6E27F;
+}
+
+.pac-item {
+  border: none;
+}
