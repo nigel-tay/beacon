@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PlacesService } from 'src/app/service/places.service';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,7 @@ export class RegisterComponent implements OnInit{
   visibility: boolean = false;
   contentExists: boolean = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private placesService: PlacesService) {}
 
         // // If you want to move your map center to the searched lat long position. Use below any one
         // // (with animation)
@@ -27,15 +28,7 @@ export class RegisterComponent implements OnInit{
 
   ngOnInit(): void {
     this.initialiseRegisterForm();
-    this.initialisePlacesAutoComplete();
-  }
-
-  initialisePlacesAutoComplete() {
-    this.autocomplete = new google.maps.places.Autocomplete(this.addressInput.nativeElement);
-    this.autocomplete.addListener('place_changed', () => {
-      const place = this.autocomplete?.getPlace();
-      console.log(place?.geometry?.location?.lat());
-    })
+    this.placesService.initialisePlacesAutoComplete(this.autocomplete, this.addressInput);
   }
 
   initialiseRegisterForm() {
