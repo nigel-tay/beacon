@@ -66,4 +66,8 @@ html, body {
 .pac-item {
   border: solid black 0.5px;
   font-family: 'DM Serif Text', serif;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
