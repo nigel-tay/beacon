@@ -10,6 +10,7 @@ import { isMobile, isTablet, isDesktop } from '../../state/viewwidth/viewwidth.a
 })
 export class NavbarComponent implements OnInit{
   loggedIn: boolean = true;
+  hamburgerToggled: boolean = false;
   viewWidth$!: Observable<number>;
 
   constructor(private store: Store<{ viewWidth: number }>) {
@@ -26,5 +27,9 @@ export class NavbarComponent implements OnInit{
     else {
       this.store.dispatch(isDesktop());
     }
+  }
+
+  toggleHamburger() {
+    this.hamburgerToggled = !this.hamburgerToggled;
   }
 }

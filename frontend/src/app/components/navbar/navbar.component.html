@@ -2,6 +2,40 @@
     <img [routerLink]="['/boards']" class="py-2 pl-8 hover:cursor-pointer" src="/assets/images/navbar_icon.png" alt="Navbar Icon">
 
     <div *ngIf="viewWidth$ | async as vw" class="h-full">
+        <div *ngIf="vw === 640" class="h-full">
+            <button (click)="toggleHamburger()" data-collapse-toggle="hamburger-dropdown" type="button" class="h-full mr-3 p-2 rounded-lg md:hidden focus:ring-2 focus:ring-black">
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                </svg>
+            </button>
+            <div [className]="
+                hamburgerToggled ?
+                'block w-auto absolute right-[20px] bg-yellow-primary mt-2' :
+                'hidden'
+                "
+                id="hamburger-dropdown">
+                <ul class="text-xl border rounded-md flex flex-col items-center">
+                    <li>
+                      <a [routerLink]="['/about']" class="block py-2 px-4">About</a>
+                    </li>
+                    <li>
+                      <a [routerLink]="['/boards']" class="block py-2 px-4">Boards</a>
+                    </li>
+                    <li>
+                      <a [routerLink]="['/reports']" class="block py-2 px-4">Reports</a>
+                    </li>
+                    <li>
+                      <a [routerLink]="['/my-profile']" class="block py-2 px-4">My Profile</a>
+                    </li>
+                    <li>
+                      <a [routerLink]="['/pet-profile']" class="block py-2 px-4">Pet Profile</a>
+                    </li>
+                    <li *ngIf="loggedIn">
+                      <a [routerLink]="['/logout']" class="block py-2 px-4">Logout</a>
+                    </li>
+                  </ul>
+            </div>
+        </div>
         <div *ngIf="vw === 768 || vw === 1024" class="h-full">
             <div class="flex items-center h-full">
                 <div [routerLink]="['/about']" class="hover:cursor-pointer hover:underline underline-offset-8">
