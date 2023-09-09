@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,11 +22,14 @@ export class AuthService {
     }
   }
 
-  request() {
-    let headers: any = {};
+  request(method: string, url: string, data: any): Observable<any> {
+    let headers: any;
 
     if (this.getAuthToken() !== null) {
-      headers = {"Authorization": "Bearer " + this.getAuthToken()};
+      headers = new HttpHeaders()
+      .set('Authorization', `Bearer this.getAuthToken()`);
     }
+
+    return this.httpClient.post<any>(url, data, {headers: headers});
   }
 }
