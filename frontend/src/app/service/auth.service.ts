@@ -26,10 +26,12 @@ export class AuthService {
     let headers: any;
 
     if (this.getAuthToken() !== null) {
-      headers = new HttpHeaders()
-      .set('Authorization', `Bearer this.getAuthToken()`);
+      headers = new HttpHeaders().set('Authorization', `Bearer ${this.getAuthToken()}`);
+      console.log("im here")
     }
 
-    return this.httpClient.post<any>(url, data, {headers: headers});
+    // if (method === 'POST') {
+      return this.httpClient.post<any>(url, data, {headers: headers});
+    // }
   }
 }
