@@ -18,6 +18,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { StoreModule } from '@ngrx/store';
 import { viewwidthReducer } from './state/viewwidth/viewwidth.reducer';
 import { HttpClientModule } from '@angular/common/http';
+import { LogoutComponent } from './components/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { HttpClientModule } from '@angular/common/http';
     ReportsComponent,
     MyProfileComponent,
     PetProfileComponent,
-    RegisterComponent
+    RegisterComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
