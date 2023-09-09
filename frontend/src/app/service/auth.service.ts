@@ -30,8 +30,6 @@ export class AuthService {
       console.log("im here")
     }
 
-    // if (method === 'POST') {
-      return this.httpClient.post<any>(url, data, {headers: headers});
-    // }
+    return this.httpClient.post<any>(url, data, {headers: headers});
   }
 }

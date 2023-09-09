@@ -1,15 +1,9 @@
 package beacon.backend.repositories;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
@@ -35,7 +29,7 @@ public class UserRepository {
             user.setUsername(rs.getString("username"));
             user.setEmail(rs.getString("email"));
             user.setPassword(rs.getString("password"));
-            user.setAddress(rs.getString("addresss"));
+            user.setAddress(rs.getString("address"));
             user.setLat(rs.getString("lat"));
             user.setLng(rs.getString("lng"));
             

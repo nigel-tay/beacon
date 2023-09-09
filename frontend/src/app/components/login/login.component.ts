@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Login } from 'src/app/interface/login';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,10 @@ export class LoginComponent implements OnInit{
   loginForm!: FormGroup;
   loginDetails!: Login;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.initialiseLoginForm();
@@ -33,6 +38,20 @@ export class LoginComponent implements OnInit{
     this.loginDetails.username = this.loginForm.value.username;
     this.loginDetails.password = this.loginForm.value.password;
     console.log(this.loginDetails);
-    // CREATE SERVICE TO CALL BACKEND
+    this.login(this.loginDetails)
+  }
+
+  login(login: Login) {
+    this.authService.request("POST", "/api/login", login)
+          .subscribe({
+            next: (data) => {
+              this.authService.setAuthToken(data.token);
+              this.router.navigate(['/boards'])
+            },
+            error: (e) => {
+              this.authService.setAuthToken(null);
+              alert(e);
+            }
+          })
   }
 }
