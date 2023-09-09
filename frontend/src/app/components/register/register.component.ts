@@ -66,5 +66,6 @@ export class RegisterComponent implements OnInit, AfterViewInit{
     this.user.username = this.registerForm.value.username
     this.user.password = this.registerForm.value.password
     console.log(this.user);
+    // CREATE SERVICE TO CALL BACKEND
   }
 }
