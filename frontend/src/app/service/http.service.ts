@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class HttpService {
 
   constructor(private httpClient: HttpClient) { }
 
@@ -30,6 +30,18 @@ export class AuthService {
       console.log("im here")
     }
 
-    return this.httpClient.post<any>(url, data, {headers: headers});
+    switch(method.toLowerCase()) {
+      case 'get':
+          return this.httpClient.get<any>(url, {headers: headers});  
+        break;
+        case 'post':
+          return this.httpClient.post<any>(url, data, {headers: headers});
+        break;
+        case 'put':
+          return this.httpClient.put<any>(url, data, {headers: headers});
+        break;
+      default:
+          return this.httpClient.delete<any>(url);
+    }
   }
 }

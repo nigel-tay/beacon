@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Login } from 'src/app/interface/login';
-import { AuthService } from 'src/app/service/auth.service';
+import { HttpService } from 'src/app/service/http.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit{
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    private httpService: HttpService,
     private router: Router) {}
 
   ngOnInit(): void {
@@ -42,14 +42,14 @@ export class LoginComponent implements OnInit{
   }
 
   login(login: Login) {
-    this.authService.request("POST", "/api/login", login)
+    this.httpService.request("POST", "/api/login", login)
           .subscribe({
             next: (data) => {
-              this.authService.setAuthToken(data.token);
+              this.httpService.setAuthToken(data.token);
               this.router.navigate(['/boards'])
             },
             error: (e) => {
-              this.authService.setAuthToken(null);
+              this.httpService.setAuthToken(null);
               alert(e);
             }
           })
