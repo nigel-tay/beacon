@@ -8,30 +8,30 @@
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
                 </svg>
             </button>
-            <div [className]="
-                hamburgerToggled ?
-                'block w-auto absolute right-[20px] bg-yellow-primary mt-2' :
+            <div 
+            [className]="hamburgerStatus == 'open' ?
+                'block w-auto absolute rounded-md right-[20px] bg-yellow-primary mt-2' :
                 'hidden'
                 "
                 id="hamburger-dropdown">
                 <ul class="text-xl border rounded-md flex flex-col items-center">
                     <li>
-                      <a [routerLink]="['/about']" class="block py-2 px-4">About</a>
+                      <a [routerLink]="['/about']" class="block py-2 px-4" (click)="closeDropDown()">About</a>
                     </li>
                     <li>
-                      <a [routerLink]="['/boards']" class="block py-2 px-4">Boards</a>
+                      <a [routerLink]="['/boards']" class="block py-2 px-4" (click)="closeDropDown()">Boards</a>
                     </li>
                     <li>
-                      <a [routerLink]="['/reports']" class="block py-2 px-4">Reports</a>
+                      <a [routerLink]="['/reports']" class="block py-2 px-4" (click)="closeDropDown()">Reports</a>
                     </li>
                     <li>
-                      <a [routerLink]="['/my-profile']" class="block py-2 px-4">My Profile</a>
+                      <a [routerLink]="['/my-profile']" class="block py-2 px-4" (click)="closeDropDown()">My Profile</a>
                     </li>
                     <li>
-                      <a [routerLink]="['/pet-profile']" class="block py-2 px-4">Pet Profile</a>
+                      <a [routerLink]="['/pet-profile']" class="block py-2 px-4" (click)="closeDropDown()">Pet Profile</a>
                     </li>
                     <li *ngIf="loggedIn">
-                      <a [routerLink]="['/logout']" class="block py-2 px-4">Logout</a>
+                      <a [routerLink]="['/logout']" class="block py-2 px-4" (click)="closeDropDown()">Logout</a>
                     </li>
                   </ul>
             </div>

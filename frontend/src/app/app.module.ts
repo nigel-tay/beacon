@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegisterComponent } from './components/register/register.component';
 import { StoreModule } from '@ngrx/store';
 import { viewwidthReducer } from './state/viewwidth/viewwidth.reducer';
+import { mobilenavReducer } from './state/mobilenav/mobilenav.reducer';
 import { HttpClientModule } from '@angular/common/http';
 import { LogoutComponent } from './components/logout/logout.component';
 
@@ -42,7 +43,10 @@ import { LogoutComponent } from './components/logout/logout.component';
     BrowserAnimationsModule,
     MatIconModule,
     GoogleMapsModule,
-    StoreModule.forRoot({viewWidth: viewwidthReducer})
+    StoreModule.forRoot({
+      viewWidth: viewwidthReducer,
+      mobileNav: mobilenavReducer
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

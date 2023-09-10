@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { isMobile, isTablet, isDesktop } from '../../state/viewwidth/viewwidth.actions'
+import { openDropdown, closeDropdown } from 'src/app/state/mobilenav/mobilenav.actions';
 
 @Component({
   selector: 'app-navbar',
@@ -10,11 +11,15 @@ import { isMobile, isTablet, isDesktop } from '../../state/viewwidth/viewwidth.a
 })
 export class NavbarComponent implements OnInit{
   loggedIn: boolean = true;
-  hamburgerToggled: boolean = false;
+  hamburgerStatus!: string;
+  dropdownStatus$!: Observable<string>;
   viewWidth$!: Observable<number>;
 
-  constructor(private store: Store<{ viewWidth: number }>) {
+  constructor(private store: Store<{ viewWidth: number, mobileNav: string }>) {
     this.viewWidth$ = store.select('viewWidth');
+    this.dropdownStatus$ = store.select('mobileNav');
+    this.dropdownStatus$.subscribe(v => this.hamburgerStatus = v);
+    
   }
 
   ngOnInit(): void {
@@ -30,6 +35,16 @@ export class NavbarComponent implements OnInit{
   }
 
   toggleHamburger() {
-    this.hamburgerToggled = !this.hamburgerToggled;
+    this.hamburgerStatus === 'close' ?
+    this.openDropDown() :
+    this.closeDropDown();
+  }
+
+  closeDropDown() {
+    this.store.dispatch(closeDropdown());
+  }
+
+  openDropDown() {
+    this.store.dispatch(openDropdown());
   }
 }
