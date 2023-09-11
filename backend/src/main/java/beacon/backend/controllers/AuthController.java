@@ -37,7 +37,6 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody SignUpDto signUpDto) {
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> YOU'VE REACHED THE CONTROLLER");
         User user = userService.register(signUpDto);
         UserDto createdUser = new UserDto();
         createdUser.setToken(userAuthProvider.createToken(new UserDto(user.getId(), user.getUsername(), "")));
