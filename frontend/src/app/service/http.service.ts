@@ -27,17 +27,16 @@ export class HttpService {
 
     if (this.getAuthToken() !== null) {
       headers = new HttpHeaders().set('Authorization', `Bearer ${this.getAuthToken()}`);
-      console.log("im here")
     }
 
     switch(method.toLowerCase()) {
       case 'get':
           return this.httpClient.get<any>(url, {headers: headers});  
         break;
-        case 'post':
+      case 'post':
           return this.httpClient.post<any>(url, data, {headers: headers});
         break;
-        case 'put':
+      case 'put':
           return this.httpClient.put<any>(url, data, {headers: headers});
         break;
       default:

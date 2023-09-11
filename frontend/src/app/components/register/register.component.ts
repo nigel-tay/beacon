@@ -14,6 +14,9 @@ export class RegisterComponent implements OnInit, AfterViewInit{
   @ViewChild('addressInput', {static: true})
   addressInput!: ElementRef;
 
+  @ViewChild('imageInput')
+  imageInput!: ElementRef;
+
   registerForm!: FormGroup
   visibility: boolean = false;
   contentExists: boolean = false;
@@ -29,13 +32,14 @@ export class RegisterComponent implements OnInit, AfterViewInit{
   ngOnInit(): void {
     this.initialiseRegisterForm();
     this.user = {
-      id: crypto.randomUUID().toString(),
+      id: "",
       address: "",
       email: "",
       username: "",
       password: "",
       lat: 0,
       lng: 0,
+      image: ""
     }
   }
 
@@ -49,6 +53,7 @@ export class RegisterComponent implements OnInit, AfterViewInit{
       password: this.fb.control('', [Validators.required, Validators.minLength(8)]),
       email: this.fb.control('', [Validators.email, Validators.required]),
       address: this.fb.control(''),
+      image: this.fb.control('')
     })
   }
 
@@ -66,11 +71,17 @@ export class RegisterComponent implements OnInit, AfterViewInit{
   }
 
   handleFormSubmit() {
-    this.user.email = this.registerForm.value.email
-    this.user.username = this.registerForm.value.username
-    this.user.password = this.registerForm.value.password
-    console.log(this.user);
-    this.httpService.request('POST', '/api/register', this.user)
-      .subscribe(v => console.log(v));
+    const formData = new FormData();
+    formData.append('imageFile', this.imageInput.nativeElement.files[0]);
+    this.httpService.request('POST', '/api/upload', formData)
+      .subscribe((data: any) => {
+        this.user.image = data.image;
+        this.user.id = crypto.randomUUID().toString();
+        this.user.email = this.registerForm.value.email;
+        this.user.username = this.registerForm.value.username;
+        this.user.password = this.registerForm.value.password;
+        this.httpService.request('POST', '/api/register', this.user)
+          .subscribe(v => console.log(v));
+      });
   }
 }

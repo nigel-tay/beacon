@@ -15,5 +15,4 @@ export class LogoutComponent implements OnInit{
     this.httpService.setAuthToken(null);
     this.router.navigate(['/login']);
   }
-
 }

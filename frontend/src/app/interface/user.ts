@@ -6,4 +6,5 @@ export interface User {
     password: string;
     lat: number | undefined;
     lng: number | undefined;
+    image: string | undefined;
 }

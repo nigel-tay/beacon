@@ -14,8 +14,8 @@ public class UserRepository {
 
     private String SQL_FIND_BY_USERNAME = "SELECT * FROM beacon_user WHERE username = ?;";
     private String SQL_INSERT_NEW_USER = """
-                INSERT INTO beacon_user (id, username, email, password, address, lat, lng)
-                VALUES (?,?,?,?,?,?,?);
+                INSERT INTO beacon_user (id, username, email, password, address, lat, lng, image)
+                VALUES (?,?,?,?,?,?,?,?);
             """;
 
     @Autowired
@@ -32,13 +32,13 @@ public class UserRepository {
             user.setAddress(rs.getString("address"));
             user.setLat(rs.getString("lat"));
             user.setLng(rs.getString("lng"));
+            user.setImage(rs.getString("image"));
             
             return Optional.of(user);
         }
         else {
             return Optional.empty();
         }
-
     }
 
     public Integer insertNewUser(User user) {
@@ -49,6 +49,7 @@ public class UserRepository {
                         user.getPassword(),
                         user.getAddress(),
                         user.getLat(),
-                        user.getLng());
+                        user.getLat(),
+                        user.getImage());
     }
 }

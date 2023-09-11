@@ -15,4 +15,5 @@ public class User {
     private String address;
     private String lat;
     private String lng;
+    private String image;
 }

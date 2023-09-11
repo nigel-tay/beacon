@@ -65,6 +65,13 @@
                 placeholder="address (optional)"
                 formControlName="address">
         </div>
+        <div class="w-[350px] mt-5 bg-yellow-primary h-16 rounded-full flex items-center border">
+            <mat-icon class="ml-5 scale-150">image</mat-icon>
+            <input #imageInput type="file"
+                class="ml-5 w-[75%] bg-yellow-primary focus:outline-none flex"
+                placeholder="profile image (optional)"
+                formControlName="image">
+        </div>
         <button 
             type="button"
             [className]="
