@@ -19,7 +19,6 @@ export class NavbarComponent implements OnInit{
     this.viewWidth$ = store.select('viewWidth');
     this.dropdownStatus$ = store.select('mobileNav');
     this.dropdownStatus$.subscribe(v => this.hamburgerStatus = v);
-    
   }
 
   ngOnInit(): void {
