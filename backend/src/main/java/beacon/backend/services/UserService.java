@@ -36,6 +36,7 @@ public class UserService {
     @Autowired
     private ImageRepository iRepo;
 
+    // Auth
     public UserDto login(LoginDto loginDto) {
         User user = userRepository.findUserByUsername(loginDto.username())
                                     .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
@@ -45,11 +46,6 @@ public class UserService {
                 return new UserDto(user.getId(), user.getUsername(), "");
         } 
         throw new AppException("Invalid password", HttpStatus.BAD_REQUEST);
-    }
-
-    public String uploadImage(MultipartFile image) throws IOException {
-        String urlString = iRepo.uploadToCloudinary(image);
-        return urlString;
     }
 
     public User register(SignUpDto signUpDto) {
@@ -71,4 +67,28 @@ public class UserService {
         }
     }
     
+    // User
+    public JsonObject getUserById(String id) {
+        User user = userRepository.findUserById(id)
+                              .orElseThrow(() -> new AppException("Unknown user id", HttpStatus.NOT_FOUND));
+        return createUserJsonObject(user);
+    }
+
+    public String uploadImage(MultipartFile image) throws IOException {
+        String urlString = iRepo.uploadToCloudinary(image);
+        return urlString;
+    }
+
+    public JsonObject createUserJsonObject(User user) {
+        return Json.createObjectBuilder()
+                    .add("id", user.getId())
+                    .add("username", user.getUsername())
+                    .add("password", user.getPassword())
+                    .add("email", user.getEmail())
+                    .add("address", user.getAddress())
+                    .add("lat", user.getLat())
+                    .add("lng", user.getLng())
+                    .add("image", user.getImage())
+                    .build();
+    }
 }

@@ -54,7 +54,7 @@ export class AuthService {
 
   // User data
   getId(): string | null {
-    return window.localStorage.getItem("id");
+    return window.localStorage.getItem("user_id");
   }
 
   setUserData(data: any | null): void {

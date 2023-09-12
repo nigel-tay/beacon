@@ -25,10 +25,10 @@
                       <a [routerLink]="['/reports']" class="block py-2 px-4" (click)="closeDropDown()">Reports</a>
                     </li>
                     <li>
-                      <a [routerLink]="['/my-profile']" class="block py-2 px-4" (click)="closeDropDown()">My Profile</a>
+                      <a (click)="navigateWithId('my-profile')" class="block py-2 px-4" (click)="closeDropDown()">My Profile</a>
                     </li>
                     <li>
-                      <a [routerLink]="['/pet-profile']" class="block py-2 px-4" (click)="closeDropDown()">Pet Profile</a>
+                      <a (click)="navigateWithId('pet-profile')" class="block py-2 px-4" (click)="closeDropDown()">Pet Profile</a>
                     </li>
                     <li *ngIf="loggedIn">
                       <a [routerLink]="['/logout']" class="block py-2 px-4" (click)="closeDropDown()">Logout</a>

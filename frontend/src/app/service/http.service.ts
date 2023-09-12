@@ -24,7 +24,7 @@ export class HttpService {
 
     switch(method.toLowerCase()) {
       case 'get':
-          return this.httpClient.get<any>(url, {headers: headers});  
+          return this.httpClient.get<any>(url, {headers: headers}); 
         break;
       case 'post':
           return this.httpClient.post<any>(url, data, {headers: headers});

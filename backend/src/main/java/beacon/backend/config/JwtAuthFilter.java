@@ -25,7 +25,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (header != null) {
-            System.out.println("Im in the JWTAUTHFILTER");
             String[] authElements = header.split(" ");
 
             if (authElements.length == 2

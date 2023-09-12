@@ -3,6 +3,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { isMobile, isTablet, isDesktop } from '../../state/viewwidth/viewwidth.actions'
 import { openDropdown, closeDropdown } from 'src/app/state/mobilenav/mobilenav.actions';
+import { AuthService } from 'src/app/service/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -15,7 +17,11 @@ export class NavbarComponent implements OnInit{
   dropdownStatus$!: Observable<string>;
   viewWidth$!: Observable<number>;
 
-  constructor(private store: Store<{ viewWidth: number, mobileNav: string }>) {
+  constructor(
+    private store: Store<{ viewWidth: number, mobileNav: string }>,
+    private authService: AuthService,
+    private router: Router
+    ) {
     this.viewWidth$ = store.select('viewWidth');
     this.dropdownStatus$ = store.select('mobileNav');
     this.dropdownStatus$.subscribe(v => this.hamburgerStatus = v);
@@ -31,6 +37,11 @@ export class NavbarComponent implements OnInit{
     else {
       this.store.dispatch(isDesktop());
     }
+  }
+
+  navigateWithId(component: string) {
+    let id:string = this.authService.getId() as string;
+    this.router.navigate([`/${component}`, id])
   }
 
   toggleHamburger() {
