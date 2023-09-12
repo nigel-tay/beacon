@@ -1,42 +1,44 @@
 <div class="flex sm:flex-row flex-col items-center justify-center h-[90vh]">
-    <div *ngIf="!registerForm.valid"
-        class="bg-yellow-primary px-2 pb-2 mt-[-3.5%] w-[360px] rounded-md border"
-        >
-        <div *ngIf="registerForm.get('username')?.hasError('required')" class="flex mt-2">
-            <mat-icon class="bg-pink-accent rounded-sm">close</mat-icon>
-            <div class="ml-2">Please enter a username</div>
+    <div class="flex flex-col">
+        <h1 class="text-4xl mb-5">Register</h1>
+        <div *ngIf="!registerForm.valid"
+            class="bg-yellow-primary px-2 pb-2 mt-[-3.5%] w-[360px] rounded-md border"
+            >
+            <div *ngIf="registerForm.get('username')?.hasError('required')" class="flex mt-2">
+                <mat-icon class="bg-pink-accent rounded-sm">close</mat-icon>
+                <div class="ml-2">Please enter a username</div>
+            </div>
+            <div *ngIf="registerForm.get('username')?.errors?.['minlength']" class="flex mt-2">
+                <mat-icon class="bg-pink-accent rounded-sm">close</mat-icon>
+                <div class="ml-2">Username needs to be 5 Characters or more</div>
+            </div>
+            <div *ngIf="registerForm.get('email')?.hasError('required')" class="flex mt-2">
+                <mat-icon class="bg-pink-accent rounded-sm">close</mat-icon>
+                <div class="ml-2">Please enter an email</div>
+            </div>
+            <div *ngIf="registerForm.get('email')?.errors?.['email']" class="flex mt-2">
+                <mat-icon class="bg-pink-accent rounded-sm">close</mat-icon>
+                <div class="ml-2">Please enter a valid email</div>
+            </div>
+            <div *ngIf="registerForm.get('password')?.errors?.['required']" class="flex mt-2">
+                <mat-icon class="bg-pink-accent rounded-sm">close</mat-icon>
+                <div class="ml-2">Please enter a password</div>
+            </div>
+            <div *ngIf="registerForm.get('password')?.errors?.['minlength']" class="flex mt-2">
+                <mat-icon class="bg-pink-accent rounded-sm">close</mat-icon>
+                <div class="ml-2">Password needs to be 8 Characters or more</div>
+            </div>
         </div>
-        <div *ngIf="registerForm.get('username')?.errors?.['minlength']" class="flex mt-2">
-            <mat-icon class="bg-pink-accent rounded-sm">close</mat-icon>
-            <div class="ml-2">Username needs to be 5 Characters or more</div>
-        </div>
-        <div *ngIf="registerForm.get('email')?.hasError('required')" class="flex mt-2">
-            <mat-icon class="bg-pink-accent rounded-sm">close</mat-icon>
-            <div class="ml-2">Please enter an email</div>
-        </div>
-        <div *ngIf="registerForm.get('email')?.errors?.['email']" class="flex mt-2">
-            <mat-icon class="bg-pink-accent rounded-sm">close</mat-icon>
-            <div class="ml-2">Please enter a valid email</div>
-        </div>
-        <div *ngIf="registerForm.get('password')?.errors?.['required']" class="flex mt-2">
-            <mat-icon class="bg-pink-accent rounded-sm">close</mat-icon>
-            <div class="ml-2">Please enter a password</div>
-        </div>
-        <div *ngIf="registerForm.get('password')?.errors?.['minlength']" class="flex mt-2">
-            <mat-icon class="bg-pink-accent rounded-sm">close</mat-icon>
-            <div class="ml-2">Password needs to be 8 Characters or more</div>
+        <div *ngIf="registerForm.valid" 
+            class="bg-yellow-primary px-2 py-2 mt-[-3.5%] w-[360px] rounded-md border flex justify-center items-center z-0"
+            >
+            <mat-icon class="bg-blue-button-hover rounded-md">done</mat-icon>
+            <div class="ml-2">Good to go</div>
         </div>
     </div>
-    <div *ngIf="registerForm.valid" 
-        class="bg-yellow-primary px-2 py-2 mt-[-3.5%] w-[360px] rounded-md border flex justify-center items-center z-0"
-        >
-        <mat-icon class="bg-blue-button-hover rounded-md">done</mat-icon>
-        <div class="ml-2">Good to go</div>
-    </div>
-    <form [formGroup]="registerForm" class="flex flex-col justify-center items-center sm:ml-40 mt-5">
+    <form [formGroup]="registerForm" class="flex flex-col justify-center items-center sm:ml-5 lg:ml-[10%] mt-5">
         <div class="sm:flex sm:flex-col justify-items-center items-center mb-10 hidden">
             <img src="/assets/images/login_logo.svg" alt="beacon logo">
-            <h1 class="text-4xl mt-5">Register</h1>
         </div>
         <div class="bg-yellow-primary w-[350px] h-16 rounded-full flex items-center border">
             <mat-icon class="ml-5 scale-150">account_circle</mat-icon>
@@ -52,6 +54,7 @@
         <div class="mt-5 bg-yellow-primary w-[350px] h-16 rounded-full flex items-center border">
             <mat-icon class="ml-5 scale-150">lock</mat-icon>
             <input #passwordInput [type]="visibility ? 'text': 'password'"
+                autocomplete="on"
                 class="ml-5 w-[70%] h-4/5 text-2xl bg-yellow-primary focus:outline-none"
                 placeholder="password"
                 formControlName="password">
