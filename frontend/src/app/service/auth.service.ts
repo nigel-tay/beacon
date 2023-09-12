@@ -53,7 +53,7 @@ export class AuthService {
   }
 
   // User data
-  getId(): string | null {
+  getUserId(): string | null {
     return window.localStorage.getItem("user_id");
   }
 

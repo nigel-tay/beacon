@@ -1,0 +1,50 @@
+<form class="flex flex-col justify-center items-center" [formGroup]="petFormGroup">
+    <h1 class="mt-5 text-4xl">Register Pet</h1>
+    <div class="mt-5 bg-yellow-primary w-[350px] h-16 rounded-full flex items-center border">
+        <mat-icon class="ml-5 scale-150">drive_file_rename_outline</mat-icon>
+        <input type="text"
+            class="ml-5 w-[75%] h-4/5 text-2xl bg-yellow-primary focus:outline-none"
+            placeholder="name"
+            formControlName="name">
+    </div>
+    <div class="mt-5 bg-yellow-primary w-[350px] h-16 rounded-full flex items-center border">
+        <mat-icon class="ml-5 scale-150">pets</mat-icon>
+        <input type="text"
+            class="ml-5 w-[75%] h-4/5 text-2xl bg-yellow-primary focus:outline-none"
+            placeholder="Dog, Cat, Bird, etc..."
+            formControlName="type">
+    </div>
+    <div class="w-[350px] mt-5 bg-yellow-primary h-16 rounded-full flex items-center border">
+        <mat-icon class="ml-5 scale-150">image</mat-icon>
+        <input #imageInput type="file"
+            class="ml-5 w-[75%] bg-yellow-primary focus:outline-none flex"
+            placeholder="profile image (optional)"
+            formControlName="image">
+    </div>
+    <div class="relative">
+        <div class="mt-5 bg-yellow-primary w-[350px] h-16 rounded-full flex items-center border">
+            <mat-icon class="ml-5 scale-150">emoji_emotions</mat-icon>
+            <input #petFeaturesInput type="text"
+            (input)="onInputChange(petFeaturesInput.value)"
+            class="ml-5 w-[75%] h-4/5 text-2xl bg-yellow-primary focus:outline-none"
+            placeholder="features"
+            formControlName="features">
+        </div>
+        <div *ngIf="petFeaturesInput.value.trim() !== '' && populatedArray.length > 0" class="absolute top-[110%] left-[15%] bg-yellow-primary border rounded-md">
+            <div *ngFor="let feature of populatedArray" class="px-5 py-2 border-y text-lg" (click)="handleFeatureClick(feature)">
+                {{feature}}
+            </div>
+        </div>
+    </div>
+    <div class="mt-5 bg-yellow-primary w-[350px] p-2 rounded-md flex flex-col items-start border">
+        <h2 class="text-lg ml-2">Selected Features:</h2>
+        <div class="flex flex-wrap">
+            <div *ngFor="let selectedFeature of featuresArray" class="px-2 py-1 mx-1 my-1 text-lg border rounded-md" (click)="removeFeature(selectedFeature)">
+                {{selectedFeature}}
+            </div>
+        </div>
+    </div>
+    <button (click)="handlePetFormSubmit()"
+        class="mt-5 text-2xl py-2 px-6 rounded-full border bg-blue-button  hover:bg-blue-button-hover"
+        >Add Pet</button>
+</form>

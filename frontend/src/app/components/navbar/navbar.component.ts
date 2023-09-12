@@ -40,7 +40,7 @@ export class NavbarComponent implements OnInit{
   }
 
   navigateWithId(component: string) {
-    let id:string = this.authService.getId() as string;
+    let id:string = this.authService.getUserId() as string;
     this.router.navigate([`/${component}`, id])
   }
 

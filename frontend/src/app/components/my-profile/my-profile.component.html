@@ -1,14 +1,19 @@
 <div class="flex justify-center items-center flex-col">
     <div>
-        <div class="bg-yellow-primary w-[70vw] p-5 mt-2 flex justify-center items-center flex-col">
+        <div class="bg-yellow-primary w-[65vw] p-5 mt-2 flex justify-center items-center flex-col rounded-md">
             <img [src]="user.image" alt="User image" class="w-36 rounded-full">
+            <div class="text-sm mt-2">@{{user.username}} | {{user.email}}</div>
+            <div class="text-sm">{{user.address}}</div>
         </div>
-        <div>{{user.username}} | {{user.email}} | {{user.address}}</div>
     </div>
     <div>
         <div>
             <!-- loop through user pets -->
         </div>
-        <button class="mt-5 text-2xl py-2 px-6 rounded-full border bg-blue-button  hover:bg-blue-button-hover">Register new Pet</button>
+        <button 
+            [routerLink]="['/register-pet']"
+            type="button"
+            class="mt-5 text-2xl py-2 px-6 rounded-full border bg-blue-button  hover:bg-blue-button-hover"
+            >Register new Pet</button>
     </div>
 </div>

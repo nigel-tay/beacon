@@ -20,6 +20,7 @@ import { viewwidthReducer } from './state/viewwidth/viewwidth.reducer';
 import { mobilenavReducer } from './state/mobilenav/mobilenav.reducer';
 import { HttpClientModule } from '@angular/common/http';
 import { LogoutComponent } from './components/logout/logout.component';
+import { RegisterPetComponent } from './components/register-pet/register-pet.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { LogoutComponent } from './components/logout/logout.component';
     MyProfileComponent,
     PetProfileComponent,
     RegisterComponent,
-    LogoutComponent
+    LogoutComponent,
+    RegisterPetComponent
   ],
   imports: [
     BrowserModule,

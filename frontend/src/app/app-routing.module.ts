@@ -8,6 +8,7 @@ import { MyProfileComponent } from './components/my-profile/my-profile.component
 import { PetProfileComponent } from './components/pet-profile/pet-profile.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { RegisterPetComponent } from './components/register-pet/register-pet.component';
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path: "reports", component: ReportsComponent},
   {path: "my-profile/:id", component: MyProfileComponent},
   {path: "pet-profile/:id", component: PetProfileComponent},
+  {path: "register-pet", component: RegisterPetComponent}
 ];
 
 @NgModule({
