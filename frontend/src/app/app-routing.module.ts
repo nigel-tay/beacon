@@ -17,7 +17,7 @@ const routes: Routes = [
   {path: "boards", component: BoardsComponent},
   {path: "reports", component: ReportsComponent},
   {path: "my-profile/:id", component: MyProfileComponent},
-  {path: "pet-profile", component: PetProfileComponent},
+  {path: "pet-profile/:id", component: PetProfileComponent},
 ];
 
 @NgModule({

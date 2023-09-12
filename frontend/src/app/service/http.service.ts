@@ -1,34 +1,25 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient: HttpClient,
+    private authService: AuthService
+    ) { }
 
-  getAuthToken(): string | null {
-    return window.localStorage.getItem("auth_token");
-  }
-
-  setAuthToken(token: string | null): void {
-    if (token !== null) {
-      window.localStorage.setItem("auth_token", token);
-    }
-    else {
-      window.localStorage.removeItem("auth_token");
-      window.localStorage.removeItem("user_id");
-      window.localStorage.removeItem("username");
-    }
-  }
+  
 
   request(method: string, url: string, data: any): Observable<any> {
     let headers: any;
 
-    if (this.getAuthToken() !== null) {
-      headers = new HttpHeaders().set('Authorization', `Bearer ${this.getAuthToken()}`);
+    if (this.authService.getAuthToken() !== null) {
+      headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getAuthToken()}`);
     }
 
     switch(method.toLowerCase()) {
@@ -42,7 +33,7 @@ export class HttpService {
           return this.httpClient.put<any>(url, data, {headers: headers});
         break;
       default:
-          return this.httpClient.delete<any>(url);
+          return this.httpClient.delete<any>(url, {headers: headers});
     }
   }
 }

@@ -97,7 +97,7 @@ export class RegisterComponent implements OnInit, AfterViewInit{
     this.user.password = this.registerForm.value.password;
     this.httpService.request('POST', '/api/register', this.user)
       .subscribe((data: any) => {
-        this.httpService.setAuthToken(data.token);
+        this.authService.setAuthToken(data.token);
         this.authService.setUserData(data);
         this.router.navigate([`/my-profile/${data.id}`])
       });

@@ -46,12 +46,12 @@ export class LoginComponent implements OnInit{
     this.httpService.request("POST", "/api/login", login)
           .subscribe({
             next: (data) => {
-              this.httpService.setAuthToken(data.token);
+              this.authService.setAuthToken(data.token);
               this.authService.setUserData(data);
               this.router.navigate([`/my-profile/${data.id}`])
             },
             error: (e) => {
-              this.httpService.setAuthToken(null);
+              this.authService.setAuthToken(null);
               alert(e.message);
             }
           })
