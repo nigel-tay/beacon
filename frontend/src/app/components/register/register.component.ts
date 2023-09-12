@@ -71,17 +71,28 @@ export class RegisterComponent implements OnInit, AfterViewInit{
   }
 
   handleFormSubmit() {
-    const formData = new FormData();
-    formData.append('imageFile', this.imageInput.nativeElement.files[0]);
-    this.httpService.request('POST', '/api/upload', formData)
-      .subscribe((data: any) => {
-        this.user.image = data.image;
-        this.user.id = crypto.randomUUID().toString();
-        this.user.email = this.registerForm.value.email;
-        this.user.username = this.registerForm.value.username;
-        this.user.password = this.registerForm.value.password;
-        this.httpService.request('POST', '/api/register', this.user)
-          .subscribe(v => console.log(v));
-      });
+    if (this.imageInput.nativeElement.files.length > 0) {
+      const formData = new FormData();
+      formData.append('imageFile', this.imageInput.nativeElement.files[0]);
+      this.httpService.request('POST', '/api/upload', formData)
+        .subscribe((data: any) => {
+          this.user.image = data.image;
+          this.user.id = crypto.randomUUID().toString();
+          this.user.email = this.registerForm.value.email;
+          this.user.username = this.registerForm.value.username;
+          this.user.password = this.registerForm.value.password;
+          this.httpService.request('POST', '/api/register', this.user)
+            .subscribe(v => console.log(v));
+        });
+    }
+    else {
+      this.user.image = "";
+      this.user.id = crypto.randomUUID().toString();
+      this.user.email = this.registerForm.value.email;
+      this.user.username = this.registerForm.value.username;
+      this.user.password = this.registerForm.value.password;
+      this.httpService.request('POST', '/api/register', this.user)
+        .subscribe(v => console.log(v));
+    }
   }
 }

@@ -67,7 +67,7 @@ public class UserService {
             return user;
         }
         else {
-            throw new AppException("User " + user.getUsername() + " was not successfully created", HttpStatus.BAD_REQUEST);
+            throw new AppException("User " + user.getUsername() + " could not be created", HttpStatus.BAD_REQUEST);
         }
     }
     

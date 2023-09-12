@@ -2,7 +2,7 @@ export interface Reports {
     id: string;
     petId: string;
     lat: string;
-    long: string;
+    lng: string;
     dateTime: string;
     area: string;
 }
