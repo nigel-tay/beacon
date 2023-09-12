@@ -30,11 +30,8 @@ export class MyProfileComponent implements OnInit{
     this.httpService.request('GET', `/api/users/${userId}`, '')
       .subscribe((data: User) => {
         this.user = data;
-        console.log(this.user.image);
       })
   }
     // get user using id
     // get pets using id
-
-  // display data
 }

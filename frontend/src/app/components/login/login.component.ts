@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit{
             },
             error: (e) => {
               this.authService.setAuthToken(null);
-              alert(e.message);
+              alert("User not found");
             }
           })
   }

@@ -27,7 +27,9 @@ public class ImageRepository {
 
     public String uploadToCloudinary(MultipartFile file) throws IOException {
         String urlString = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url").toString();
-        return urlString;
+        String[] urlStringArray = urlString.split("/upload/");
+        String firstHalf = urlStringArray[0];
+        String secondHalf = urlStringArray[1].split("/")[1];
+        return firstHalf + "/upload/c_thumb,g_face,z_0.8,h_400,w_400/" + secondHalf;
     }
 }
-
