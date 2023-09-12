@@ -19,6 +19,8 @@ export class HttpService {
     }
     else {
       window.localStorage.removeItem("auth_token");
+      window.localStorage.removeItem("user_id");
+      window.localStorage.removeItem("username");
     }
   }
 

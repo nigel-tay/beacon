@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Login } from 'src/app/interface/login';
 import { HttpService } from 'src/app/service/http.service';
-import { LoginService } from 'src/app/service/login.service';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit{
     private fb: FormBuilder,
     private router: Router,
     private httpService: HttpService,
-    private loginService: LoginService) {}
+    private authService: AuthService) {}
 
   ngOnInit(): void {
     this.initialiseLoginForm();
@@ -47,8 +47,8 @@ export class LoginComponent implements OnInit{
           .subscribe({
             next: (data) => {
               this.httpService.setAuthToken(data.token);
-              // this.loginService.setUserData(data);
-              this.router.navigate(['/boards'])
+              this.authService.setUserData(data);
+              this.router.navigate([`/my-profile/${data.id}`])
             },
             error: (e) => {
               this.httpService.setAuthToken(null);

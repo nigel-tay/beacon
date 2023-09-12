@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { User } from 'src/app/interface/user';
+import { AuthService } from 'src/app/service/auth.service';
 import { HttpService } from 'src/app/service/http.service';
 import { PlacesService } from 'src/app/service/places.service';
 
@@ -26,8 +28,10 @@ export class RegisterComponent implements OnInit, AfterViewInit{
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     private placesService: PlacesService,
-    private httpService: HttpService) {}
+    private httpService: HttpService,
+    private authService: AuthService) {}
   
   ngOnInit(): void {
     this.initialiseRegisterForm();
@@ -77,22 +81,25 @@ export class RegisterComponent implements OnInit, AfterViewInit{
       this.httpService.request('POST', '/api/upload', formData)
         .subscribe((data: any) => {
           this.user.image = data.image;
-          this.user.id = crypto.randomUUID().toString();
-          this.user.email = this.registerForm.value.email;
-          this.user.username = this.registerForm.value.username;
-          this.user.password = this.registerForm.value.password;
-          this.httpService.request('POST', '/api/register', this.user)
-            .subscribe(v => console.log(v));
+          this.assignRemainingUserFieldsAndRegister();
         });
     }
     else {
       this.user.image = "";
-      this.user.id = crypto.randomUUID().toString();
-      this.user.email = this.registerForm.value.email;
-      this.user.username = this.registerForm.value.username;
-      this.user.password = this.registerForm.value.password;
-      this.httpService.request('POST', '/api/register', this.user)
-        .subscribe(v => console.log(v));
+      this.assignRemainingUserFieldsAndRegister();
     }
+  }
+
+  assignRemainingUserFieldsAndRegister() {
+    this.user.id = crypto.randomUUID().toString();
+    this.user.email = this.registerForm.value.email;
+    this.user.username = this.registerForm.value.username;
+    this.user.password = this.registerForm.value.password;
+    this.httpService.request('POST', '/api/register', this.user)
+      .subscribe((data: any) => {
+        this.httpService.setAuthToken(data.token);
+        this.authService.setUserData(data);
+        this.router.navigate([`/my-profile/${data.id}`])
+      });
   }
 }
