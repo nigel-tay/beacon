@@ -31,10 +31,7 @@
                       <a [routerLink]="['/reports']" class="block py-2 px-4" (click)="closeDropDown()">Reports</a>
                     </li>
                     <li *ngIf="loggedIn">
-                      <a (click)="navigateWithId('my-profile')" class="block py-2 px-4" (click)="closeDropDown()">My Profile</a>
-                    </li>
-                    <li *ngIf="loggedIn">
-                      <a (click)="navigateWithId('pet-profile')" class="block py-2 px-4" (click)="closeDropDown()">Pet Profile</a>
+                      <a (click)="navigateWithId('my-profile')" class="block py-2 px-4 hover:cursor-pointer" (click)="closeDropDown()">My Profile</a>
                     </li>
                     <li *ngIf="loggedIn">
                       <a [routerLink]="['/logout']" class="block py-2 px-4" (click)="closeDropDown()">Logout</a>
@@ -68,7 +65,6 @@
                         <div class="dropdown-spacing"></div>
                         <div class="dropdown-content bg-yellow-primary">
                             <p (click)="navigateWithId('my-profile')" class="text-2xl hover:underline underline-offset-8">My Profile</p>
-                            <p (click)="navigateWithId('pet-profile')" class="text-2xl hover:underline underline-offset-8">Pet Profile</p>
                             <p [routerLink]="['/logout']" class="text-2xl hover:underline underline-offset-8">Logout</p>
                         </div>
                     </div>
