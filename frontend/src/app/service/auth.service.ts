@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import jwt_decode, { JwtPayload } from "jwt-decode";
+import { enableLoginItems, disableLoginItems } from 'src/app/state/navloginenable/navloginenable.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +10,9 @@ import jwt_decode, { JwtPayload } from "jwt-decode";
 export class AuthService {
 
   constructor(
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private store: Store<{ navLoginEnable: boolean }>,
   ) { }
 
   // Token
@@ -18,6 +22,7 @@ export class AuthService {
 
   setAuthToken(token: string | null): void {
     if (token !== null) {
+      this.store.dispatch(enableLoginItems());
       window.localStorage.setItem("auth_token", token);
     }
     else {
@@ -30,25 +35,31 @@ export class AuthService {
   
 
   verifyTokenValidity() {
-    if (this.getAuthToken() !== null && this.getAuthToken() !== undefined) {
-      const token: string | null = this.getAuthToken()
-      const tokenPayload: JwtPayload = jwt_decode(token as string);
-      const expirationTime: number | undefined = tokenPayload.exp ? tokenPayload.exp * 1000 : undefined
-
-      if (expirationTime !== undefined && Date.now() >= expirationTime) {
-        console.log('Token has expired');
-        alert("Your session has expired. Please login again");
+    let currentComponent = window.location.href.split('/#/')[1];
+      if (this.getAuthToken() !== null && this.getAuthToken() !== undefined) {
+        const token: string | null = this.getAuthToken()
+        const tokenPayload: JwtPayload = jwt_decode(token as string);
+        const expirationTime: number | undefined = tokenPayload.exp ? tokenPayload.exp * 1000 : undefined
+  
+        if (expirationTime !== undefined && Date.now() >= expirationTime) {
+          this.store.dispatch(disableLoginItems());
+          if (currentComponent !== 'login' && currentComponent !== 'register' && currentComponent !== 'about') {
+            alert("Your session has expired. Please login again");
+          }
+          this.logout();
+        }
+      }
+      else {
+        if (currentComponent !== 'login' && currentComponent !== 'register' && currentComponent !== 'about') {
+          alert("Your session has expired. Please login again");
+        }
         this.logout();
       }
-    }
-    else {
-      alert("Your session has expired. Please login again");
-      this.logout();
-    }
   }
 
   logout() {
     this.setAuthToken(null);
+    this.store.dispatch(disableLoginItems());
     this.router.navigate(['/login']);
   }
 

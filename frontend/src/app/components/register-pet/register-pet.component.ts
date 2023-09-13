@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Pet } from 'src/app/interface/pet';
@@ -37,7 +37,6 @@ export class RegisterPetComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
-    this.authService.verifyTokenValidity();
     this.pet = {
       id: "",
       ownerId: "",

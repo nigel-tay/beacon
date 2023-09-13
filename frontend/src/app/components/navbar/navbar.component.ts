@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { isMobile, isTablet, isDesktop } from '../../state/viewwidth/viewwidth.actions'
 import { openDropdown, closeDropdown } from 'src/app/state/mobilenav/mobilenav.actions';
+import { enableLoginItems, disableLoginItems } from 'src/app/state/navloginenable/navloginenable.actions';
 import { AuthService } from 'src/app/service/auth.service';
 import { Router } from '@angular/router';
 
@@ -12,22 +13,24 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit{
-  loggedIn: boolean = true;
+  loggedIn!: boolean;
   hamburgerStatus!: string;
   dropdownStatus$!: Observable<string>;
   viewWidth$!: Observable<number>;
 
   constructor(
-    private store: Store<{ viewWidth: number, mobileNav: string }>,
+    private store: Store<{ viewWidth: number, mobileNav: string, navLoginEnable: boolean }>,
     private authService: AuthService,
     private router: Router
     ) {
     this.viewWidth$ = store.select('viewWidth');
     this.dropdownStatus$ = store.select('mobileNav');
-    this.dropdownStatus$.subscribe(v => this.hamburgerStatus = v);
+    this.dropdownStatus$.subscribe(data => this.hamburgerStatus = data);
+    store.select('navLoginEnable').subscribe(data => this.loggedIn = data);
   }
 
   ngOnInit(): void {
+    this.authService.verifyTokenValidity();
     if (window.screen.width <= 640) { // 768px portrait
       this.store.dispatch(isMobile());
     }
