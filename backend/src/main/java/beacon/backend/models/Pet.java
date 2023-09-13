@@ -13,4 +13,5 @@ public class Pet {
     private String name;
     private String type;
     private String image;
+    private Integer lost;
 }

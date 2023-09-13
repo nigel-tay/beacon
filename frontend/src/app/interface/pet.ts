@@ -4,4 +4,5 @@ export interface Pet {
     name: string;
     type: string;
     image: string;
+    lost: number;
 }

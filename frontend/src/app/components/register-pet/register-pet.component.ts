@@ -11,7 +11,7 @@ import { PetService } from 'src/app/service/pet.service';
   templateUrl: './register-pet.component.html',
   styleUrls: ['./register-pet.component.scss']
 })
-export class RegisterPetComponent implements OnInit, OnDestroy{
+export class RegisterPetComponent implements OnInit {
 
   @ViewChild('imageInput')
   imageInput!: ElementRef;
@@ -19,6 +19,9 @@ export class RegisterPetComponent implements OnInit, OnDestroy{
   @ViewChild('petFeaturesInput')
   petFeaturesInput!: ElementRef;
   
+  @ViewChild('lostInput')
+  lostInput!: ElementRef;
+
   pet!: Pet;
   petFormGroup!: FormGroup;
   featuresArray: string[] = [];
@@ -34,22 +37,23 @@ export class RegisterPetComponent implements OnInit, OnDestroy{
   ){}
 
   ngOnInit(): void {
+    this.authService.verifyTokenValidity();
     this.pet = {
       id: "",
       ownerId: "",
       name: "",
       type: "",
       image: "",
+      lost: 0
     }
-    // get all existing features from the backend and save to localstorage as features
-    // this.petService.getAllFeatures()
-    //       .subscribe((data: any) => {
-    //         if (data.length > 0) {
-    //           this.dbFeaturesArray = [...data];
-    //           console.log(this.dbFeaturesArray);
-    //         }
-    //       })
-    this.dbFeaturesArray = ['brown', 'furry', 'short', 'broad', 'fat', 'cute']
+    this.petService.getAllFeatures()
+          .subscribe((data: any) => {
+            console.log(data)
+            if (data.length > 0) {
+              this.dbFeaturesArray = [...data];
+              console.log(this.dbFeaturesArray);
+            }
+          })
     this.initialisePetForm();
   }
 
@@ -60,42 +64,45 @@ export class RegisterPetComponent implements OnInit, OnDestroy{
       name: this.fb.control('', [Validators.required]),
       type: this.fb.control('', [Validators.required]),
       image: this.fb.control(''),
+      lost: this.fb.control(0),
     })
   }
 
   handlePetFormSubmit() {
-    // get user_id and set owner_id on pet table
-    // 
-    // rest of the field get from form data
+    this.pet.id = crypto.randomUUID().toString();
+    this.assignPetFieldsAndPost();
   }
 
-  // handleFormSubmit() {
-  //   if (this.imageInput.nativeElement.files.length > 0) {
-  //     const formData = new FormData();
-  //     formData.append('imageFile', this.imageInput.nativeElement.files[0]);
-  //     this.httpService.request('POST', '/api/upload', formData)
-  //       .subscribe((data: any) => {
-  //         this.user.image = data.image;
-  //         this.assignRemainingUserFieldsAndRegister();
-  //       });
-  //   }
-  //   else {
-  //     this.user.image = "";
-  //     this.assignRemainingUserFieldsAndRegister();
-  //   }
-  // }
-
-  assignRemainingUserFieldsAndRegister() {
-    this.pet.id = crypto.randomUUID().toString();
-    this.pet.ownerId = this.authService.getUserId() as string;
-    this.pet.name = this.petFormGroup.value.name;
-    this.pet.type = this.petFormGroup.value.type;
-    this.httpService.request('POST', '/api/register', this.pet)
+  postFeatures() {
+    let featuresDto = {
+      pet_id: this.pet.id,
+      features: [...this.featuresArray]
+    }
+    console.log(featuresDto)
+    this.httpService.request('POST', '/api/pets/features', featuresDto)
       .subscribe((data: any) => {
-        this.authService.setAuthToken(data.token);
-        this.authService.setUserData(data);
-        this.router.navigate([`/my-profile/${data.id}`])
-      });
+        console.log(data.message);
+      })
+  }
+
+  assignPetFieldsAndPost() {
+    const formData = new FormData();
+      formData.append('imageFile', this.imageInput.nativeElement.files[0]);
+      this.httpService.request('POST', '/api/upload', formData)
+        .subscribe((data: any) => {
+          this.pet.image = data.image;
+          this.pet.ownerId = this.authService.getUserId() as string;
+          this.pet.name = this.petFormGroup.value.name;
+          this.pet.type = this.petFormGroup.value.type.toLowerCase();
+          this.pet.lost = this.lostInput.nativeElement.checked ? 1 : 0;
+          console.log(this.pet);
+          this.httpService.request('POST', '/api/pets/add', this.pet)
+            .subscribe((data: any) => {
+              this.postFeatures();
+              alert("Pet registered successfully!");
+              this.router.navigate([`/pet-profile/${data.id}`])
+            });
+        });
   }
 
   onInputChange(inputValue: string) {
@@ -111,12 +118,19 @@ export class RegisterPetComponent implements OnInit, OnDestroy{
     }
   }
 
+  onEnterKeyPressed(event: any, value: string) {
+    if (value.trim() !== '') {
+        this.handleFeatureClick(value);
+    }
+  }
+
   handleFeatureClick(feature: string) {
     if (!this.featuresArray.includes(feature)) {
       this.featuresArray.push(feature);
     }
     this.populatedArray = [];
     this.petFeaturesInput.nativeElement.value = '';
+    this.petFeaturesInput.nativeElement.focus();
   }
 
   removeFeature(feature: string) {
@@ -125,9 +139,4 @@ export class RegisterPetComponent implements OnInit, OnDestroy{
       this.featuresArray.splice(index, 1);
     }
   }
-
-  ngOnDestroy(): void {
-    // delete features hash
-  }
-
 }

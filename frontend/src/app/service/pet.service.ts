@@ -12,6 +12,6 @@ export class PetService {
   ) { }
 
   getAllFeatures(): Observable<any> {
-    return this.httpService.request('GET', '/api/features', '');
+    return this.httpService.request('GET', '/api/pets/features', '');
   }
 }

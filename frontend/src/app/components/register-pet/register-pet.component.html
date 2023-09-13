@@ -21,14 +21,24 @@
             placeholder="profile image (optional)"
             formControlName="image">
     </div>
+    <div class="w-[350px] mt-5 bg-yellow-primary h-16 rounded-full flex items-center border">
+        <mat-icon class="ml-5 scale-150">not_listed_location_sharp_icon</mat-icon>
+        <div class="ml-5 flex justify-center items-center text-2xl h-[100%]">
+            <label for="lost">Lost? Check for yes:</label>
+            <input #lostInput type="checkbox"
+                class="bg-yellow-primary ml-2 w-6 h-6 rounded-md"
+                name="lost"
+                formControlName="lost">
+        </div>
+    </div>
     <div class="relative">
         <div class="mt-5 bg-yellow-primary w-[350px] h-16 rounded-full flex items-center border">
             <mat-icon class="ml-5 scale-150">emoji_emotions</mat-icon>
             <input #petFeaturesInput type="text"
             (input)="onInputChange(petFeaturesInput.value)"
+            (keydown.enter)="onEnterKeyPressed($event, petFeaturesInput.value)"
             class="ml-5 w-[75%] h-4/5 text-2xl bg-yellow-primary focus:outline-none"
-            placeholder="features"
-            formControlName="features">
+            placeholder="features">
         </div>
         <div *ngIf="petFeaturesInput.value.trim() !== '' && populatedArray.length > 0" class="absolute top-[110%] left-[15%] bg-yellow-primary border rounded-md">
             <div *ngFor="let feature of populatedArray" class="px-5 py-2 border-y text-lg" (click)="handleFeatureClick(feature)">
@@ -44,7 +54,9 @@
             </div>
         </div>
     </div>
+    <div class="text-md w-5/6 mt-2 px-2">All fields are mandatory, to be able to identify your pet quickly</div>
     <button (click)="handlePetFormSubmit()"
+        type="button"
         class="mt-5 text-2xl py-2 px-6 rounded-full border bg-blue-button  hover:bg-blue-button-hover"
         >Add Pet</button>
 </form>

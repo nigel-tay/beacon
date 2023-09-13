@@ -11,7 +11,7 @@
         <div class="mt-5 bg-yellow-primary w-[350px] h-16 rounded-full flex items-center border">
             <mat-icon class="ml-5 scale-150">lock</mat-icon>
             <input type="password" class="ml-5 w-[75%] h-4/5 text-2xl bg-yellow-primary focus:outline-none" placeholder="password" formControlName="password">
-            <button (click)="handleSubmit()" type="button" class="flex justify-center items-center p-2 ml-2 mr-3 rounded-full border bg-blue-button hover:bg-blue-button-hover">
+            <button (click)="handleSubmit()" (keyup.enter)="handleSubmit()" type="button" class="flex justify-center items-center p-2 ml-2 mr-3 rounded-full border bg-blue-button hover:bg-blue-button-hover">
                 <mat-icon>login</mat-icon>
             </button>
         </div>

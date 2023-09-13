@@ -28,6 +28,7 @@ public class SecurityConfig {
             .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests((requests) -> requests
                 .requestMatchers(HttpMethod.POST, "/api/login", "/api/register", "/api/upload").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/pets/features", "/api/pets/add").authenticated()
                 .anyRequest().authenticated());
         return http.build();
     }
