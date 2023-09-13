@@ -5,13 +5,17 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import beacon.backend.exceptions.AppException;
 import beacon.backend.models.Features;
 import beacon.backend.models.Pet;
+import beacon.backend.records.LostDto;
 import beacon.backend.records.PetDto;
+import beacon.backend.records.ReportDto;
 
 @Repository
 public class PetRepository {
@@ -31,6 +35,15 @@ public class PetRepository {
     private String SQL_INSERT_PET = """
         INSERT INTO pet (id, owner_id, name, type, image, lost)
         VALUES (?,?,?,?,?,?);
+    """;
+    private String SQL_INSERT_REPORT = """
+        INSERT INTO report (id, pet_id, lat, lng, date_time, zone, description, closed)
+        VALUES (?,?,?,?,?,?,?,?);
+    """;
+    private String SQL_UPDATE_PET_LOST = """
+        UPDATE pet 
+        SET lost = ?
+        WHERE id = ?;        
     """;
 
     @Autowired
@@ -89,11 +102,14 @@ public class PetRepository {
     }
 
     public void insertPetFeature(String petFeaturesUuid, String petId, String featuresId) {
-        jdbcTemplate.update(SQL_INSERT_PET_FEATURES, petFeaturesUuid, petId, featuresId);
+        int result = jdbcTemplate.update(SQL_INSERT_PET_FEATURES, petFeaturesUuid, petId, featuresId);
+        if (result < 1) {
+            throw new AppException("Could not create pet feature", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public void insertNewPet(PetDto petDto) {
-        jdbcTemplate.update(
+        int result = jdbcTemplate.update(
             SQL_INSERT_PET,
             petDto.id(),
             petDto.ownerId(),
@@ -101,6 +117,9 @@ public class PetRepository {
             petDto.type(),
             petDto.image(),
             petDto.lost());
+        if (result < 1) {
+            throw new AppException("Pet could not be registered", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public Optional<Pet> getPetById(String petId) {
@@ -117,5 +136,30 @@ public class PetRepository {
             return Optional.of(pet);
         }
         return Optional.empty();
+    }
+
+    public void insertNewReport(ReportDto reportDto) {
+        int result = jdbcTemplate.update(
+                    SQL_INSERT_REPORT,
+                    reportDto.id(),
+                    reportDto.petId(),
+                    reportDto.lat(),
+                    reportDto.lng(),
+                    reportDto.dateTime(),
+                    reportDto.zone(),
+                    reportDto.description(),
+                    reportDto.closed());
+        if (result < 1) {
+            throw new AppException("Pet could not be registered", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public void putPetLostValue(String petId, String lostValue) {
+        System.out.println(petId + " >>>>>>>>>>>>>>>>>>> " + lostValue);
+        int result = jdbcTemplate.update(SQL_UPDATE_PET_LOST, Integer.parseInt(lostValue), petId);
+
+        if (result < 1) {
+            throw new AppException("Lost could not be updated", HttpStatus.BAD_REQUEST);
+        }
     }
 }

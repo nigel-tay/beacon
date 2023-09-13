@@ -1,8 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Reports } from 'src/app/interface/reports';
 import { ZoneBoundaries } from 'src/app/interface/zone-boundaries';
+import { HttpService } from 'src/app/service/http.service';
+import { PetService } from 'src/app/service/pet.service';
 import { PlacesService } from 'src/app/service/places.service';
 
 @Component({
@@ -15,31 +17,37 @@ export class ReportsComponent implements OnInit{
   @ViewChild('addressInput', {static: true})
   addressInput!: ElementRef;
 
-  zoneBoundaries: ZoneBoundaries = {
-    north: {
-      latMin: 1.2700,
+  zoneBoundaries:ZoneBoundaries = {
+    central: {
+      latMin: 1.3000,
       latMax: 1.4500,
-      lngMin: 103.7200,
-      lngMax: 103.8200
-    },
-    south: {
-      latMin: 1.2700,
-      latMax: 1.3400,
-      lngMin: 103.7200,
-      lngMax: 103.8200
+      lngMin: 103.8000,
+      lngMax: 103.9400,
     },
     east: {
-      latMin: 1.2700,
-      latMax: 1.3900,
-      lngMin: 103.8200,
-      lngMax: 103.9800
+      latMin: 1.2200,
+      latMax: 1.3500,
+      lngMin: 103.9000,
+      lngMax: 104.0400,
+    },
+    north: {
+      latMin: 1.3500,
+      latMax: 1.4700,
+      lngMin: 103.7500,
+      lngMax: 103.8500,
+    },
+    "north-east": {
+      latMin: 1.3400,
+      latMax: 1.4300,
+      lngMin: 103.8800,
+      lngMax: 103.9800,
     },
     west: {
-      latMin: 1.3400,
-      latMax: 1.4500,
-      lngMin: 103.6600,
-      lngMax: 103.8200
-    }
+      latMin: 1.2200,
+      latMax: 1.3800,
+      lngMin: 103.5800,
+      lngMax: 103.7500,
+    },
   };
 
   reportFormGroup!: FormGroup;
@@ -48,8 +56,11 @@ export class ReportsComponent implements OnInit{
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private fb: FormBuilder,
-    private placesService: PlacesService
+    private placesService: PlacesService,
+    private httpService: HttpService,
+    private petService: PetService
   ){}
 
   ngOnInit(): void {
@@ -96,7 +107,23 @@ export class ReportsComponent implements OnInit{
   }
 
   handleFormSubmit() {
+    this.report.id = crypto.randomUUID().toString();
+    this.report.dateTime = this.reportFormGroup.value.dateTime.toString();    
+    this.report.zone = this.determineZone(parseFloat(this.report.lat), parseFloat(this.report.lng));
+    this.report.description = this.reportFormGroup.value.description;
     console.log(this.report)
+    this.httpService.request('POST', '/api/pets/reports',this.report)
+      .subscribe(data => {
+        console.log("AFTER POSTING OF REPORT ONLY>>>>>>>>>>>>>>>>>>>>>> "+data)
+
+        this.petService.putPetLost(this.report.petId, {lostValue: '1'})
+          .subscribe(data => {
+              console.log("AFTER PUT PET LOST>>>>>>>>>>>>>>>>>>>>>> "+data)
+              this.router.navigate(['/pet-profile', this.report.petId])
+            })
+      })
+    
+    // route back to pet page
   }
 }
  

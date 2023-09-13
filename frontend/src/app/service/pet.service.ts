@@ -22,4 +22,8 @@ export class PetService {
   getPetData(petId: string): Observable<any> {
     return this.httpService.request('GET', `/api/pets/${petId}`, '');
   }
+
+  putPetLost(petId: string, lostValue: any): Observable<any> {
+    return this.httpService.request('PUT', `/api/pets/lost/${petId}`, lostValue)
+  }
 }

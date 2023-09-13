@@ -69,3 +69,8 @@ html, body {
     cursor: pointer;
   }
 }
+
+// Date
+input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}

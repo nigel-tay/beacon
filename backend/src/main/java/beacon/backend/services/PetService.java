@@ -14,7 +14,9 @@ import beacon.backend.exceptions.AppException;
 import beacon.backend.models.Features;
 import beacon.backend.models.Pet;
 import beacon.backend.records.FeaturesDto;
+import beacon.backend.records.LostDto;
 import beacon.backend.records.PetDto;
+import beacon.backend.records.ReportDto;
 import beacon.backend.repositories.PetRepository;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -117,5 +119,13 @@ public class PetService {
                     .build();
         }
         return null;
+    }
+
+    public void postReport(ReportDto reportDto) {
+        petRepository.insertNewReport(reportDto);
+    }
+
+    public void putPetLostValue(String petId, String lostValue) {
+        petRepository.putPetLostValue(petId, lostValue);
     }
 }
