@@ -1,5 +1,5 @@
 <div class="flex justify-between h-20 bg-yellow-primary sticky">
-    <img [routerLink]="loggedIn ? ['/boards'] : ['/login']" class="py-2 pl-8 hover:cursor-pointer" src="/assets/images/navbar_icon.png" alt="Navbar Icon">
+    <img (click)="closeDropDown()" [routerLink]="loggedIn ? ['/boards'] : ['/login']" class="py-2 pl-8 hover:cursor-pointer" src="/assets/images/navbar_icon.png" alt="Navbar Icon">
 
     <div *ngIf="viewWidth$ | async as vw" class="h-full">
         <div *ngIf="vw === 640" class="h-full">

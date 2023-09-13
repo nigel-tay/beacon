@@ -58,12 +58,12 @@ export class RegisterPetComponent implements OnInit {
 
   initialisePetForm() {
     this.petFormGroup = this.fb.group({
-      id: this.fb.control('', [Validators.required]),
-      ownerId: this.fb.control('', [Validators.required]),
+      id: this.fb.control(''),
+      ownerId: this.fb.control(''),
       name: this.fb.control('', [Validators.required]),
       type: this.fb.control('', [Validators.required]),
-      image: this.fb.control(''),
-      lost: this.fb.control(0),
+      image: this.fb.control('', [Validators.required]),
+      lost: this.fb.control(0)
     })
   }
 
@@ -99,6 +99,8 @@ export class RegisterPetComponent implements OnInit {
             .subscribe((data: any) => {
               this.postFeatures();
               alert("Pet registered successfully!");
+              this.pet.lost > 0 ?
+              this.router.navigate([`/reports`]) :
               this.router.navigate([`/pet-profile/${data.id}`])
             });
         });

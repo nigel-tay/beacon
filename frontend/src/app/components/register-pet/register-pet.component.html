@@ -24,13 +24,14 @@
     <div class="w-[350px] mt-5 bg-yellow-primary h-16 rounded-full flex items-center border">
         <mat-icon class="ml-5 scale-150">not_listed_location_sharp_icon</mat-icon>
         <div class="ml-5 flex justify-center items-center text-2xl h-[100%]">
-            <label for="lost">Lost? Check for yes:</label>
+            <label for="lost">Lost?</label>
             <input #lostInput type="checkbox"
                 class="bg-yellow-primary ml-2 w-6 h-6 rounded-md"
                 name="lost"
                 formControlName="lost">
+            <p class="ml-2">{{this.lostInput.checked ? 'Yes' : 'No'}}</p>
+            </div>
         </div>
-    </div>
     <div class="relative">
         <div class="mt-5 bg-yellow-primary w-[350px] h-16 rounded-full flex items-center border">
             <mat-icon class="ml-5 scale-150">emoji_emotions</mat-icon>
@@ -54,9 +55,17 @@
             </div>
         </div>
     </div>
-    <div class="text-md w-5/6 mt-2 px-2">All fields are mandatory, to be able to identify your pet quickly</div>
+    <div class="w-5/6 text-md">
+        <p class="mt-2">*All fields should be filled, to facilitate search efforts in the event of an accident</p>
+        <p class="mt-1" *ngIf="this.lostInput.checked">*You will be redirected to fill up a lost report</p>
+    </div>
     <button (click)="handlePetFormSubmit()"
         type="button"
-        class="mt-5 text-2xl py-2 px-6 rounded-full border bg-blue-button  hover:bg-blue-button-hover"
+        [disabled]="!petFormGroup.valid"
+        [className]="
+                petFormGroup.valid ? 
+                'mt-5 text-2xl py-2 px-6 rounded-full border bg-blue-button  hover:bg-blue-button-hover' : 
+                'mt-5 text-2xl py-2 px-6 rounded-full border text-grey-text bg-grey hover:cursor-default'
+                "
         >Add Pet</button>
 </form>
