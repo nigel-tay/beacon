@@ -9,10 +9,17 @@
         </div>
     </div>
     <button 
+    *ngIf="pet.id !== userId"
     [routerLink]="pet.lost ? ['/sighting'] : ['/reports', pet.id]"
     type="button"
     class="mt-5 text-2xl py-2 px-6 rounded-full border bg-blue-button  hover:bg-blue-button-hover"
-        >{{pet.lost ? 'Add Sighting' : 'Report lost'}}</button>
+        >Add Sighting</button>
+    <button 
+    *ngIf="pet.lost"
+    [routerLink]="pet.lost ? ['/sighting'] : ['/reports', pet.id]"
+    type="button"
+    class="mt-5 text-2xl py-2 px-6 rounded-full border bg-blue-button  hover:bg-blue-button-hover"
+        >Report Lost</button>
     <div *ngIf="pet.lost">
         <div class="flex flex-col justify-center mt-3 hover:cursor-pointer">
             <div *ngFor="let sighting of sightingsArray">
@@ -20,7 +27,7 @@
             </div>
         </div>
         <div>
-            
+
         </div>
     </div>
 </div>

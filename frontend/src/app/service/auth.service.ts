@@ -11,7 +11,6 @@ export class AuthService {
 
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     private store: Store<{ navLoginEnable: boolean }>,
   ) { }
 
