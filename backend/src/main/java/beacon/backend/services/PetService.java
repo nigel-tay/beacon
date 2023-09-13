@@ -54,7 +54,7 @@ public class PetService {
                 postPetFeatures(featuresDto.pet_id(), returnedId);
             }
             catch (Exception e) {
-                throw new AppException("Could not insert pet features and features", HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new AppException("There was an issue inserting pet features: "+e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
     }
