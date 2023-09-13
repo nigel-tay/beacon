@@ -74,3 +74,8 @@ html, body {
 input::-webkit-calendar-picker-indicator {
   cursor: pointer;
 }
+
+// maps
+google-map > div {
+  border-radius: 15px;
+}

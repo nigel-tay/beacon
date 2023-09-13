@@ -9,20 +9,57 @@
         </div>
     </div>
     <button 
-    *ngIf="pet.id !== userId"
+    *ngIf="pet.ownerId !== userId"
     [routerLink]="pet.lost ? ['/sighting'] : ['/reports', pet.id]"
     type="button"
     class="mt-5 text-2xl py-2 px-6 rounded-full border bg-blue-button  hover:bg-blue-button-hover"
         >Add Sighting</button>
     <button 
-    *ngIf="pet.lost"
+    *ngIf="!pet.lost"
     [routerLink]="pet.lost ? ['/sighting'] : ['/reports', pet.id]"
     type="button"
     class="mt-5 text-2xl py-2 px-6 rounded-full border bg-blue-button  hover:bg-blue-button-hover"
         >Report Lost</button>
     <div *ngIf="pet.lost">
-        <div class="flex flex-col justify-center mt-3 hover:cursor-pointer">
-            <div *ngFor="let sighting of sightingsArray">
+        <div class="w-[80vw] h-52 mt-5" *ngIf="report.id.length > 0">
+            <google-map
+                #googleMap
+                height="100%"
+                width="100%"
+                [zoom]="zoom"
+                [center]="center"
+                [options]="options"
+                (mapClick)="eventHandler($event,'mapClick')"
+                (mapDblclick)="eventHandler($event,'mapDblclick')"
+                (mapDrag)="eventHandler($event,'mapDrag')"
+                (mapDragend)="eventHandler($event,'mapDragend')"
+                (mapRightclick)="eventHandler($event,'mapRightclick')"
+                (positionChanged)="eventHandler($event,'marker_positionChanged')"
+                (zoomChanged)="eventHandler($event,'zoomChanged')"
+                >
+                <map-marker
+                    #markerElem="mapMarker"
+                    *ngFor="let marker of markers"
+                    [position]="marker.position"
+                    [label]="marker.label"
+                    [title]="marker.title"
+                    [options]="marker.options"
+                    (mapClick)="openInfo(markerElem, marker.info)"
+                >
+                <!-- <map-info-window>{{ infoContent }}</map-info-window> -->
+                </map-marker>
+            </google-map>
+            <button (click)="zoomIn()">Zoom In</button>
+            <button (click)="zoomOut()">Zoom Out</button>
+        </div>
+        <div class="flex flex-col justify-center mt-3 hover:cursor-pointer rounder-md bg-white">
+            <div *ngIf="sightingsArray.length === 0">
+                no sightings
+            </div>
+            <div *ngFor="let sighting of sightingsArray" class="py-2 px-5 border-b border-t">
+                <div>@{{sighting.user_id}}</div>
+                <div>{{sighting.date_time}}</div>
+                <img *ngIf="sighting.image !== null" [src]="sighting.image" class="rounded-md">
                 <div>{{sighting.content}}</div>
             </div>
         </div>

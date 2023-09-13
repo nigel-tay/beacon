@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import beacon.backend.exceptions.AppException;
 import beacon.backend.models.Features;
 import beacon.backend.models.Pet;
+import beacon.backend.models.Report;
 import beacon.backend.records.FeaturesDto;
 import beacon.backend.records.LostDto;
 import beacon.backend.records.PetDto;
@@ -83,6 +84,25 @@ public class PetService {
         });
 
         return jsonObjectBuilder.build();
+    }
+
+    public JsonObject getOpenReportByPetId(String petId) {
+        Optional<Report> returnedOReport = petRepository.getOpenReportByPetId(petId);
+
+        if (returnedOReport.isPresent()) {
+            Report rr = returnedOReport.get();
+            return Json.createObjectBuilder()
+                    .add("id", rr.getId())
+                    .add("pet_id", rr.getPet_id())
+                    .add("lat", rr.getLat())
+                    .add("lng", rr.getLng())
+                    .add("date_time", rr.getDate_time())
+                    .add("zone", rr.getZone())
+                    .add("description", rr.getDescription())
+                    .add("closed", rr.getClosed())
+                    .build();
+        }
+        return null;
     }
 
     @Transactional(rollbackFor = Exception.class)

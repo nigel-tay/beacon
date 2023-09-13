@@ -23,6 +23,10 @@ export class PetService {
     return this.httpService.request('GET', `/api/pets/${petId}`, '');
   }
 
+  getReport(petId: string):Observable<any> {
+    return this.httpService.request('GET', `/api/pets/reports/${petId}`, '');
+  }
+
   putPetLost(petId: string, lostValue: any): Observable<any> {
     return this.httpService.request('PUT', `/api/pets/lost/${petId}`, lostValue)
   }

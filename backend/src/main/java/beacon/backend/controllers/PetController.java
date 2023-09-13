@@ -50,6 +50,17 @@ public class PetController {
         return ResponseEntity.ok(petListJson.toString());
     }
 
+    @GetMapping("/reports/{petId}")
+    public ResponseEntity<String> getOpenReportByPetId(@PathVariable String petId) {
+        JsonObject jo = petService.getOpenReportByPetId(petId);
+        
+        if (jo != null) {
+            return ResponseEntity.ok(jo.toString());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping("/features")
     public ResponseEntity<String> postFeatures(@RequestBody FeaturesDto featuresDto) {
         petService.postFeatures(featuresDto);

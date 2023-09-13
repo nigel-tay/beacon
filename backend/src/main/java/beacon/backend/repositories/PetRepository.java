@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import beacon.backend.exceptions.AppException;
 import beacon.backend.models.Features;
 import beacon.backend.models.Pet;
+import beacon.backend.models.Report;
 import beacon.backend.records.LostDto;
 import beacon.backend.records.PetDto;
 import beacon.backend.records.ReportDto;
@@ -24,6 +25,11 @@ public class PetRepository {
     private String SQL_GET_FEATURES_BY_COLUMN = "SELECT * FROM features WHERE feature = ?;";
     private String SQL_GET_PETS_BY_USER_ID = "SELECT * FROM pet WHERE owner_id = ?;";
     private String SQL_GET_PET_BY_ID = "SELECT * FROM pet WHERE id = ?;";
+    private String SQL_GET_OPEN_REPORT_BY_ID = """
+        SELECT * FROM report
+        WHERE pet_id = ?
+        AND closed = ?;
+    """;
     private String SQL_INSERT_FEATURES = """
         INSERT INTO features (id, feature)
         VALUES (?,?);
@@ -82,12 +88,46 @@ public class PetRepository {
             pet.setLost(rs.getInt("lost"));
             petList.add(pet);
         }
-    
+        
         if (petList.isEmpty()) {
             return Optional.empty();
         } else {
             return Optional.of(petList);
         }
+    }
+
+    public Optional<Pet> getPetById(String petId) {
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_GET_PET_BY_ID, petId);
+        if (rs.next()) {
+            Pet pet = new Pet(
+                rs.getString("id"),
+                rs.getString("owner_id"),
+                rs.getString("name"),
+                rs.getString("type"),
+                rs.getString("image"),
+                rs.getInt("lost")
+                );
+            return Optional.of(pet);
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Report> getOpenReportByPetId(String petId) {
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_GET_OPEN_REPORT_BY_ID, petId, 0);
+        if (rs.next()) {
+            Report r = new Report(
+                rs.getString("id"),
+                rs.getString("pet_id"),
+                rs.getString("lat"),
+                rs.getString("lng"),
+                rs.getString("date_time"),
+                rs.getString("zone"),
+                rs.getString("description"),
+                rs.getString("closed")
+                );
+            return Optional.of(r);
+        }
+        return Optional.empty();
     }
 
     public String postFeatures(String feature, String featuresUuid) {
@@ -122,21 +162,6 @@ public class PetRepository {
         }
     }
 
-    public Optional<Pet> getPetById(String petId) {
-        SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_GET_PET_BY_ID, petId);
-        if (rs.next()) {
-            Pet pet = new Pet(
-                rs.getString("id"),
-                rs.getString("owner_id"),
-                rs.getString("name"),
-                rs.getString("type"),
-                rs.getString("image"),
-                rs.getInt("lost")
-                );
-            return Optional.of(pet);
-        }
-        return Optional.empty();
-    }
 
     public void insertNewReport(ReportDto reportDto) {
         int result = jdbcTemplate.update(
