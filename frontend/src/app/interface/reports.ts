@@ -4,5 +4,7 @@ export interface Reports {
     lat: string;
     lng: string;
     dateTime: string;
-    area: string;
+    zone: string;
+    description: string;
+    closed: number;
 }

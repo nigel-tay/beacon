@@ -22,6 +22,7 @@ import { navLoginEnable } from './state/navloginenable/navloginenable.reducer';
 import { HttpClientModule } from '@angular/common/http';
 import { LogoutComponent } from './components/logout/logout.component';
 import { RegisterPetComponent } from './components/register-pet/register-pet.component';
+import { SightingComponent } from './components/sighting/sighting.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { RegisterPetComponent } from './components/register-pet/register-pet.com
     PetProfileComponent,
     RegisterComponent,
     LogoutComponent,
-    RegisterPetComponent
+    RegisterPetComponent,
+    SightingComponent
   ],
   imports: [
     BrowserModule,

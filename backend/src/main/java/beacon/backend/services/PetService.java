@@ -28,6 +28,22 @@ public class PetService {
     @Autowired
     private PetRepository petRepository;
 
+    public JsonObject getPetById(String petId) {
+        Optional<Pet> returnedPetList = petRepository.getPetById(petId);
+        if (returnedPetList.isPresent()) {
+            Pet returnedPet = returnedPetList.get();
+            return Json.createObjectBuilder()
+                    .add("id", returnedPet.getId())
+                    .add("owner_id", returnedPet.getOwner_id())
+                    .add("name", returnedPet.getName())
+                    .add("type", returnedPet.getType())
+                    .add("image", returnedPet.getImage())
+                    .add("lost", returnedPet.getLost())
+                    .build();
+        }
+        return null;
+    }
+
     public JsonArray getAllFeatures() {
         Optional<List<Features>> featureList = petRepository.getAllFeatures();
         List<String> featureStrings = new ArrayList<>();
@@ -101,6 +117,5 @@ public class PetService {
                     .build();
         }
         return null;
-        
     }
 }

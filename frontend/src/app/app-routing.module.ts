@@ -9,6 +9,7 @@ import { PetProfileComponent } from './components/pet-profile/pet-profile.compon
 import { RegisterComponent } from './components/register/register.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { RegisterPetComponent } from './components/register-pet/register-pet.component';
+import { SightingComponent } from './components/sighting/sighting.component';
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path: "register", component: RegisterComponent},
   {path: "about", component: AboutComponent},
   {path: "boards", component: BoardsComponent},
-  {path: "reports", component: ReportsComponent},
+  {path: "reports/:id", component: ReportsComponent},
+  {path: "sighting", component: SightingComponent},
   {path: "my-profile/:id", component: MyProfileComponent},
   {path: "pet-profile/:id", component: PetProfileComponent},
   {path: "register-pet", component: RegisterPetComponent}

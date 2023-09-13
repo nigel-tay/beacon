@@ -24,6 +24,12 @@ public class PetController {
     @Autowired
     private PetService petService;
 
+    @GetMapping("/{petId}")
+    public ResponseEntity<String> getPetById(@PathVariable String petId) {
+        JsonObject petJo = petService.getPetById(petId);
+        return ResponseEntity.ok(petJo.toString());
+    }
+
     @GetMapping("/features")
     public ResponseEntity<String> getAllFeatures() {
         JsonArray ja = petService.getAllFeatures();

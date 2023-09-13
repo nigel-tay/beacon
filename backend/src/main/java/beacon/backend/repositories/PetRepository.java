@@ -67,7 +67,6 @@ public class PetRepository {
             pet.setType(rs.getString("type"));
             pet.setImage(rs.getString("image"));
             pet.setLost(rs.getInt("lost"));
-            System.out.println(pet.toString());
             petList.add(pet);
         }
     

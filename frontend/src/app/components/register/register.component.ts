@@ -65,15 +65,6 @@ export class RegisterComponent implements OnInit, AfterViewInit{
     this.visibility = !this.visibility;
   }
 
-  checkAddressInput() {
-    if (this.addressInput.nativeElement.value.length > 0) {
-      this.contentExists = true;
-    }
-    else {
-      this.contentExists = false;
-    }
-  }
-
   handleFormSubmit() {
     if (this.imageInput.nativeElement.files.length > 0) {
       const formData = new FormData();

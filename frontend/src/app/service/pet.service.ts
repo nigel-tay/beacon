@@ -18,4 +18,8 @@ export class PetService {
   getPetsData(userId: string): Observable<any> {
     return this.httpService.request('GET', `/api/pets/user/${userId}`, '');
   }
+
+  getPetData(petId: string): Observable<any> {
+    return this.httpService.request('GET', `/api/pets/${petId}`, '');
+  }
 }
