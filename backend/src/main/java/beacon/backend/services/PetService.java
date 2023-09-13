@@ -18,7 +18,9 @@ import beacon.backend.records.PetDto;
 import beacon.backend.repositories.PetRepository;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 
 @Service
 public class PetService {
@@ -27,10 +29,7 @@ public class PetService {
     private PetRepository petRepository;
 
     public JsonArray getAllFeatures() {
-        return createJsonArray(petRepository.getAllFeatures());
-    }
-
-    public JsonArray createJsonArray(Optional<List<Features>> featureList) {
+        Optional<List<Features>> featureList = petRepository.getAllFeatures();
         List<String> featureStrings = new ArrayList<>();
 
         featureList.ifPresent(features -> {
@@ -43,13 +42,37 @@ public class PetService {
         return Json.createArrayBuilder(featureStrings).build();
     }
 
+    public JsonObject getPetsByUserId(String userId) {
+        Optional<List<Pet>> returnedPetList = petRepository.getPetsByUserId(userId);
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+
+        returnedPetList.ifPresent(pets -> {
+            JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+            pets.forEach(pet -> {
+                if (pet != null) {
+                    JsonObjectBuilder petBuilder = Json.createObjectBuilder()
+                            .add("id", pet.getId())
+                            .add("name", pet.getName())
+                            .add("type", pet.getType())
+                            .add("image", pet.getImage())
+                            .add("lost", pet.getLost());
+                    jsonArrayBuilder.add(petBuilder);
+                }
+            });
+
+            JsonArray petArray = jsonArrayBuilder.build();
+            jsonObjectBuilder.add("pets", petArray);
+        });
+
+        return jsonObjectBuilder.build();
+    }
+
     @Transactional(rollbackFor = Exception.class)
     public void postFeatures(FeaturesDto featuresDto) {
 
         for (String feature: featuresDto.features()) {
             String featuresUuid = UUID.randomUUID().toString();
             try {
-                System.out.println(feature);
                 String returnedId = petRepository.postFeatures(feature, featuresUuid);
                 postPetFeatures(featuresDto.pet_id(), returnedId);
             }

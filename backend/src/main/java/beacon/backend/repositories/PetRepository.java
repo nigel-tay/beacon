@@ -18,6 +18,7 @@ public class PetRepository {
 
     private String SQL_GET_FEATURES = "SELECT * FROM features;";
     private String SQL_GET_FEATURES_BY_COLUMN = "SELECT * FROM features WHERE feature = ?;";
+    private String SQL_GET_PETS_BY_USER_ID = "SELECT * FROM pet WHERE owner_id = ?;";
     private String SQL_GET_PET_BY_ID = "SELECT * FROM pet WHERE id = ?;";
     private String SQL_INSERT_FEATURES = """
         INSERT INTO features (id, feature)
@@ -50,6 +51,30 @@ public class PetRepository {
             return Optional.empty();
         } else {
             return Optional.of(featureList);
+        }
+    }
+
+    public Optional<List<Pet>> getPetsByUserId(String userId) {
+        List<Pet> petList = new ArrayList<>();
+
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_GET_PETS_BY_USER_ID, userId);
+        
+        while (rs.next()) {
+            Pet pet = new Pet();
+            pet.setId(rs.getString("id"));
+            pet.setOwner_id(rs.getString("owner_id"));
+            pet.setName(rs.getString("name"));
+            pet.setType(rs.getString("type"));
+            pet.setImage(rs.getString("image"));
+            pet.setLost(rs.getInt("lost"));
+            System.out.println(pet.toString());
+            petList.add(pet);
+        }
+    
+        if (petList.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(petList);
         }
     }
 

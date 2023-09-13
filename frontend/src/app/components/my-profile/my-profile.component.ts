@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Pet } from 'src/app/interface/pet';
 import { User } from 'src/app/interface/user';
 import { HttpService } from 'src/app/service/http.service';
 
@@ -11,6 +12,7 @@ import { HttpService } from 'src/app/service/http.service';
 export class MyProfileComponent implements OnInit{
 
   user!: User;
+  petsArray!: Pet[]
 
   constructor(
     private httpService: HttpService,
@@ -19,6 +21,7 @@ export class MyProfileComponent implements OnInit{
 
   ngOnInit(): void {
     this.getUserData();
+    this.getPetsData();
   }
 
   // get id param, make call to BE to retrieve user info
@@ -29,6 +32,13 @@ export class MyProfileComponent implements OnInit{
         this.user = data;
       })
   }
-    // get user using id
-    // get pets using id
+
+  getPetsData() {
+    let userId: string = this.activatedRoute.snapshot.params['id'];
+    this.httpService.request('GET', `/api/pets/user/${userId}`, '')
+      .subscribe((data: any) => {
+        console.log(data);
+        this.petsArray = [...data.pets];
+      })
+  }
 }
