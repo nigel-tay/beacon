@@ -105,6 +105,11 @@ public class PetService {
         return null;
     }
 
+    public Integer getTotalPages() {
+        int totalCount = petRepository.getTotalCount();
+        return (int) Math.ceil((double) totalCount / 6);
+    }
+
     public Optional<List<Report>> getReportsByRegion(int page, int pageSize, String region) {
         int offset = (page - 1) * pageSize;
         return petRepository.getReportsByRegion(offset, pageSize, region);

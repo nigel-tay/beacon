@@ -38,8 +38,10 @@ public class PetRepository {
     """;
 
     private String SQL_SELECT_ALL_REPORTS="""
-        SELECT * FROM report WHERE closed = 0;
+        SELECT * FROM report WHERE closed = 0 LIMIT ? OFFSET ?;
     """;
+    private String SQL_GET_TOTAL_COUNT = "SELECT COUNT(*) FROM report WHERE closed = 0;";
+
     private String SQL_INSERT_FEATURES = """
         INSERT INTO features (id, feature)
         VALUES (?,?);
@@ -150,7 +152,7 @@ public class PetRepository {
         System.out.println(region);
         if (region.isEmpty()) {
             System.out.println("going into all regions");
-            SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_SELECT_ALL_REPORTS);
+            SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_SELECT_ALL_REPORTS, pageSize, offset);
             while(rs.next()) {
             Report r = new Report(
                 rs.getString("id"),               
@@ -188,6 +190,10 @@ public class PetRepository {
             System.out.println("IM not empty>>"+returnedList);
             return Optional.of(returnedList);
         }
+    }
+
+    public Integer getTotalCount() {
+        return jdbcTemplate.queryForObject(SQL_GET_TOTAL_COUNT, Integer.class);
     }
 
     public String postFeatures(String feature, String featuresUuid) {

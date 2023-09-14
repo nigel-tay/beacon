@@ -1,6 +1,7 @@
 <div class="flex flex-col w-[100vw] justify-center items-center">
     <label for="region">Select region:</label>
     <select id="region" name="region" [(ngModel)]="selectedRegion">
+        <option value="" selected>All Regions</option>
       <option value="central">Central</option>
       <option value="east">East</option>
       <option value="north">North</option>
@@ -9,10 +10,31 @@
       <option value="others">Others</option>
     </select>
     <button
-        class="mt-5 text-md py-2 px-6 w-3/4 rounded-full border bg-blue-button  hover:bg-blue-button-hover"
+        class="mt-5 mb-5 text-md py-2 px-6 w-3/4 rounded-full border bg-blue-button  hover:bg-blue-button-hover"
         type="button"
         (click)="handleSearchReportsFromRegion(selectedRegion)">Search Region</button>
+    <div *ngIf="petsList.length === 0">No lost pets here!</div>
     <div>
-        <div *ngFor="let report of reportsList">hello</div>
+        <div class="flex flex-start w-[100vw] justify-between" *ngIf="petsList.length > 0 && dependentRegion === ''">
+            <div [className]="
+            currentPage === page ?
+            'bg-yellow-primary w-[40px] h-[40px] text-center rounded-t-lg text-2xl border-x border-t' :
+            'bg-pink-accent w-[40px] h-[40px] text-center rounded-t-lg text-2xl border-x border-t border-b'"
+            *ngFor="let page of totalPages" (click)="onPageChange(page)">{{page}}</div>
+            <div class="w-full border-b"></div>
+        </div>
+        <div 
+            [className]="
+                petsList.length !== 0 ?
+                'flex flex-wrap justify-center w-[100vw] bg-yellow-primary pt-3 border-b pb-5' :
+                ''
+            ">
+            <div *ngFor="let pet of petsList"
+            [routerLink]="['/pet-profile', pet.id]"
+            class="bg-pink-accent border mx-1 w-[35vw] md:w-[20vw] p-5 mt-2 flex justify-center items-center flex-col rounded-md hover:cursor-pointer">
+                <img [src]="pet.image" alt="User image" class="w-[90%] rounded-full">
+                <div class="text-sm mt-2 text-center">{{pet.name}}, {{pet.type}}</div>
+            </div>
+        </div>
     </div>
 </div>

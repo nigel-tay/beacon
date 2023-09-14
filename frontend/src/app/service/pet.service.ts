@@ -20,6 +20,8 @@ export class PetService {
   }
 
   getPetData(petId: string): Observable<any> {
+    console.log(petId);
+    
     return this.httpService.request('GET', `/api/pets/${petId}`, '');
   }
 
@@ -37,6 +39,10 @@ export class PetService {
 
   getTotalPages(): Observable<any> {
     return this.httpService.request('GET', '/api/sightings/count', '')
+  }
+
+  getTotalReportPages(): Observable<any> {
+    return this.httpService.request('GET', '/api/pets/count/reports', '')
   }
 
   putPetLost(petId: string, lostValue: any): Observable<any> {

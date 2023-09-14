@@ -106,6 +106,14 @@ public class PetController {
         return ResponseEntity.ok(jsonObjectBuilder.build().toString());
     }
 
+    @GetMapping("/count/reports")
+    public ResponseEntity<String> getTotalPages() {
+        JsonObject jo = Json.createObjectBuilder()
+        .add("pages", petService.getTotalPages())
+        .build();
+        return ResponseEntity.ok(jo.toString());
+    }
+
     @PostMapping("/features")
     public ResponseEntity<String> postFeatures(@RequestBody FeaturesDto featuresDto) {
         petService.postFeatures(featuresDto);
