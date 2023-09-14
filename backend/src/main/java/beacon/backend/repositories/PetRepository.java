@@ -174,9 +174,7 @@ public class PetRepository {
 
     public Optional<List<Report>> getReportsByRegion(int offset, int pageSize, String region) {
         List<Report> returnedList = new ArrayList<>();
-        System.out.println(region);
         if (region.isEmpty()) {
-            System.out.println("going into all regions");
             SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_SELECT_ALL_REPORTS, pageSize, offset);
             while(rs.next()) {
             Report r = new Report(
@@ -192,7 +190,6 @@ public class PetRepository {
             }
         }
         else {
-            System.out.println("going into specficiccc regionnnnnn regions");
             SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_SELECT_REPORTS_BY_REGION, region, pageSize, offset);
             while(rs.next()) {
             Report r = new Report(
@@ -204,15 +201,12 @@ public class PetRepository {
                 rs.getString("zone"),               
                 rs.getString("description"),               
                 rs.getString("closed"));
-                System.out.println("REPORT HEREEEEEEEEE"+r.toString());
             returnedList.add(r);
             }
         }
         if (returnedList.isEmpty()) {
-            System.out.println("IM EMTPY>>"+returnedList);
             return Optional.empty();
         } else {
-            System.out.println("IM not empty>>"+returnedList);
             return Optional.of(returnedList);
         }
     }

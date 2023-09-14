@@ -29,7 +29,6 @@ public class UserController {
 
     @PutMapping(path="/edit", consumes=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> putUserById(@RequestBody User user) {
-        System.out.println(user);
         JsonObject userJsonObject = userService.putUserById(user);
         return ResponseEntity.ok(userJsonObject.toString());
     }

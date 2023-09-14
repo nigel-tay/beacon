@@ -3,7 +3,7 @@
         <div 
             [className]="pet.lost ?
             'bg-pink-accent border mx-1 w-[70vw] p-5 mt-2 flex justify-center items-center flex-col rounded-md md:w-[30vw]' :
-            'bg-yellow-primary border px-1 w-[70vw] p-5 mt-2 flex justify-center items-center flex-col rounded-md md:w-[30vw] mt-40'">
+            'bg-yellow-primary border px-1 w-[70vw] p-5 flex justify-center items-center flex-col rounded-md md:w-[30vw] mt-40'">
             <img [src]="pet.image" alt="User image" class="w-36 rounded-full">
             <div class="text-sm mt-2">{{pet.name}} | {{pet.type}}</div>
             <button *ngIf="pet.lost && userId !== pet.ownerId" (click)="handleAddSighting()" type="button" class="bg-blue-button hover:bg-blue-button-hover rounded-full px-2 py-1 w-2/3 mt-2">Add Sighting</button>

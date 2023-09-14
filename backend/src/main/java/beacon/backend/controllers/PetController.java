@@ -78,9 +78,6 @@ public class PetController {
         @RequestParam int page,
         @RequestParam int pageSize,
         @RequestParam String region) {
-        System.out.println(page);
-        System.out.println(pageSize);
-        System.out.println(region);
         Optional<List<Report>> reportOptional = petService.getReportsByRegion(page, pageSize, region);
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
         
