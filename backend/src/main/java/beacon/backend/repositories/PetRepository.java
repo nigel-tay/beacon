@@ -164,6 +164,9 @@ public class PetRepository {
 
 
     public void insertNewReport(ReportDto reportDto) {
+        if (reportDto.lat() == null) {
+            throw new AppException("Address format incorrect, please select an address from the dropdown", HttpStatus.BAD_REQUEST);
+        }
         int result = jdbcTemplate.update(
                     SQL_INSERT_REPORT,
                     reportDto.id(),
@@ -175,7 +178,7 @@ public class PetRepository {
                     reportDto.description(),
                     reportDto.closed());
         if (result < 1) {
-            throw new AppException("Pet could not be registered", HttpStatus.BAD_REQUEST);
+            throw new AppException("There was an issue lodging your report, try again later", HttpStatus.BAD_REQUEST);
         }
     }
 

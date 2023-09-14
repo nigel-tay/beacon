@@ -14,7 +14,6 @@ export class PlacesService {
     autocomplete = new google.maps.places.Autocomplete(input.nativeElement);
     autocomplete.addListener('place_changed', () => {
       const place = autocomplete?.getPlace();
-      console.log(place);
       entity.lat = place?.geometry?.location?.lat();
       entity.lng = place?.geometry?.location?.lng();
       if ('address' in entity) {

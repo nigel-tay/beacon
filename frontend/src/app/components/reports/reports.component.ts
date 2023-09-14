@@ -113,15 +113,18 @@ export class ReportsComponent implements OnInit{
     this.report.description = this.reportFormGroup.value.description;
     console.log(this.report)
     this.httpService.request('POST', '/api/pets/reports',this.report)
-      .subscribe(data => {
-        console.log("AFTER POSTING OF REPORT ONLY>>>>>>>>>>>>>>>>>>>>>> "+data)
-
-        this.petService.putPetLost(this.report.petId, {lostValue: '1'})
-          .subscribe(data => {
-              console.log("AFTER PUT PET LOST>>>>>>>>>>>>>>>>>>>>>> "+data)
-              this.router.navigate(['/pet-profile', this.report.petId])
-            })
-      })
+      .subscribe({
+        next: (data: any) => {
+          this.petService.putPetLost(this.report.petId, {lostValue: '1'})
+            .subscribe(data => {
+                console.log("AFTER PUT PET LOST>>>>>>>>>>>>>>>>>>>>>> "+data)
+                this.router.navigate(['/pet-profile', this.report.petId])
+              })
+        },
+        error: (data: any) => {
+          alert(data.error.message)
+        }
+    })
     
     // route back to pet page
   }

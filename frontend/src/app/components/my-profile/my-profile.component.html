@@ -29,7 +29,7 @@
                     'bg-pink-accent border mx-1 w-[35vw] md:w-[20vw] p-5 mt-2 flex justify-center items-center flex-col rounded-md' :
                     'bg-yellow-primary border mx-1 w-[35vw] md:w-[20vw] p-5 mt-2 flex justify-center items-center flex-col rounded-md'">
                     <img [src]="pet.image" alt="User image" class="w-[90%] rounded-full">
-                    <div class="text-sm mt-2">{{pet.name}} | {{pet.type}}</div>
+                    <div class="text-sm mt-2 text-center">{{pet.name}}, {{pet.type}}</div>
                 </div>
             </div>
         </div>
@@ -43,8 +43,8 @@
         <div class="bg-yellow-primary w-full">
             <span (click)="handleOpenModal()" class="bg-pink-accent rounded-sm float-right text-xl text-grey px-2 hover:text-black hover:cursor-pointer">&times;</span>
             <div class="flex flex-col justify-center items-center">
-                <textarea class="mt-2 bg-blue-button-hover border rounded-sm p-2" type="text" placeholder="enter new address"></textarea>
-                <button type="button" class="mt-5 text-md py-2 px-6 w-3/4 rounded-full border bg-blue-button  hover:bg-blue-button-hover">
+                <textarea #editAddressInput class="mt-2 bg-blue-button-hover border rounded-sm p-2" type="text" placeholder="enter new address"></textarea>
+                <button (click)="handleEditAddressSubmit()" type="button" class="mt-5 text-md py-2 px-6 w-3/4 rounded-full border bg-blue-button  hover:bg-blue-button-hover">
                     Confirm changes
                 </button>
             </div>

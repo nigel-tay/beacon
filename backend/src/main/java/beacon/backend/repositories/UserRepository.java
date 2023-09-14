@@ -3,10 +3,12 @@ package beacon.backend.repositories;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import beacon.backend.exceptions.AppException;
 import beacon.backend.models.User;
 
 @Repository
@@ -63,6 +65,10 @@ public class UserRepository {
     }
 
     public Integer insertNewUser(User user) {
+        System.out.println(user);
+        if (user.getAddress() == null) {
+            throw new AppException("Address format incorrect, please select an address from the dropdown", HttpStatus.BAD_REQUEST);
+        }
         return jdbcTemplate.update(SQL_INSERT_NEW_USER, 
                         user.getId(),
                         user.getUsername(),
