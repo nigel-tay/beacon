@@ -72,13 +72,21 @@ export class MyProfileComponent implements OnInit, AfterViewInit{
 
   handleEditAddressSubmit() {
     //they will be the same if
-    if (this.user.address == this.copiedUser.address) {
+    console.log(this.editAddressInput.nativeElement.value.trim.length);
+    
+    if (this.user.address == this.copiedUser.address && this.editAddressInput.nativeElement.value.trim.length !== 0) {
       alert('Please select an address from the dropdown');
+    }
+    else if (this.editAddressInput.nativeElement.value.trim.length === 0) {
+      this.copiedUser.address = "";
+      this.copiedUser.lat = 0;
+      this.copiedUser.lng = 0;
     }
     this.httpService.request('PUT', '/api/users/edit', this.copiedUser)
       .subscribe({
         next: (data: User) => {
           this.user = data;
+          alert('Address changed successfully!')
           window.location.reload();
         },
         error: (data: any) => {
