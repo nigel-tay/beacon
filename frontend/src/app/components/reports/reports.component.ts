@@ -128,8 +128,6 @@ export class ReportsComponent implements OnInit{
           alert(data.error.message)
         }
     })
-    
-    // route back to pet page
   }
 }
  
