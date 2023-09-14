@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
@@ -23,7 +22,9 @@ public class SightingRepository {
         INSERT INTO sighting (id, user_id, report_id, content, date_time, image, deleted)
         VALUES (?,?,?,?,?,?,?);
     """;
-    private String SQL_SELECT_SIGHTINGS_WITH_PAGINATION = "SELECT * FROM sighting LIMIT ? OFFSET ?;";
+    private String SQL_SELECT_SIGHTINGS_WITH_PAGINATION = """
+        SELECT * FROM sighting WHERE report_id = ? LIMIT ? OFFSET ?;
+    """;
     
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -43,9 +44,9 @@ public class SightingRepository {
         }
     }
 
-    public Optional<List<Sighting>> getAllSightingsWithPagination(int offset, int pageSize) {
+    public Optional<List<Sighting>> getAllSightingsWithPagination(int offset, int pageSize, String reportId) {
         List<Sighting> returnedList = new ArrayList<>();
-        SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_SELECT_SIGHTINGS_WITH_PAGINATION, pageSize, offset);
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_SELECT_SIGHTINGS_WITH_PAGINATION, reportId, pageSize, offset);
         while(rs.next()) {
             Sighting s = new Sighting(
                 rs.getString("id"),

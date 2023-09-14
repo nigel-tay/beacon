@@ -55,9 +55,9 @@
     </p>
     <div *ngIf="pet.lost" class="flex flex-col justify-center items-center mt-3 hover:cursor-pointer rounder-md w-[90vw] rounded-md">
         <div *ngIf="sightingsArray.length === 0">
-            no sightings
+            No sightings yet, hang tight.
         </div>
-        <div class="flex flex-start w-full justify-between">
+        <div class="flex flex-start w-full justify-between" *ngIf="sightingsArray.length > 0">
                 <div [className]="
                 currentPage === page ?
                 'bg-pink-accent w-[40px] h-[40px] text-center rounded-t-lg text-2xl border-x border-t' :

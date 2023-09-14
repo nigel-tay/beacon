@@ -92,7 +92,7 @@ export class PetProfileComponent implements OnInit{
             this.report.description = data.description;
             this.report.closed = data.closed;
             this.setMapsCenter();
-            this.loadSightingsByPage(this.currentPage, this.pageSize)
+            this.loadSightingsByPage(this.currentPage, this.pageSize, this.report.id)
             this.getTotalPages();
             }
           )}
@@ -107,8 +107,8 @@ export class PetProfileComponent implements OnInit{
       )  
   }
 
-  loadSightingsByPage(page: number, pageSize: number) {
-    this.petService.getAllSightings(page, pageSize)
+  loadSightingsByPage(page: number, pageSize: number, reportId: string) {
+    this.petService.getAllSightings(page, pageSize, reportId)
     .subscribe({
       next: (data: any) => {
         this.sightingsArray = [...data.sightings];
@@ -132,7 +132,7 @@ export class PetProfileComponent implements OnInit{
 
   onPageChange(newPage: number) {
     this.currentPage = newPage;
-    this.loadSightingsByPage(newPage, this.pageSize);
+    this.loadSightingsByPage(newPage, this.pageSize, this.report.id);
   }
 
   setMapsCenter() {

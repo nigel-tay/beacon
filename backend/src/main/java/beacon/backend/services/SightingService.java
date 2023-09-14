@@ -20,9 +20,9 @@ public class SightingService {
         sightingRepository.postSighting(sightingDto);
     }
 
-    public Optional<List<Sighting>> getAllSightings(int page, int pageSize) {
+    public Optional<List<Sighting>> getAllSightings(int page, int pageSize, String reportId) {
         int offset = (page - 1) * pageSize;
-        return sightingRepository.getAllSightingsWithPagination(offset, pageSize);
+        return sightingRepository.getAllSightingsWithPagination(offset, pageSize, reportId);
     }
 
     public Integer getTotalPages() {

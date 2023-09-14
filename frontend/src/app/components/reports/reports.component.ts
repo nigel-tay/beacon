@@ -115,9 +115,8 @@ export class ReportsComponent implements OnInit{
     this.httpService.request('POST', '/api/pets/reports',this.report)
       .subscribe({
         next: (data: any) => {
-          this.petService.putPetLost(this.report.petId, {lostValue: '1'})
+          this.petService.putPetLost(this.report.petId, '1')
             .subscribe(data => {
-                console.log("AFTER PUT PET LOST>>>>>>>>>>>>>>>>>>>>>> "+data)
                 this.router.navigate(['/pet-profile', this.report.petId])
               })
         },
