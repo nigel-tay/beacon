@@ -94,7 +94,9 @@ export class PetProfileComponent implements OnInit{
   }
 
   handleAddSighting() {
-    this.router.navigate([''])
+    // this.router.navigate(['/sighting'])
+    console.log(this.pet, this.report);
+    
   }
 
   setMapsCenter() {
