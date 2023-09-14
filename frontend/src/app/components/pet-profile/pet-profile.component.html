@@ -49,10 +49,10 @@
             </div>
         </div>
     </div>
-    <p class="text-lg bg-yellow-primary w-[90vw] rounded-b-md pl-5 pb-2">
+    <p *ngIf="pet.lost" class="text-lg bg-yellow-primary w-[90vw] rounded-b-md pl-5 pb-2">
         Description:<br>{{report.description}}
     </p>
-    <div class="flex flex-col justify-center items-center mt-3 hover:cursor-pointer rounder-md bg-white w-[90vw] rounded-md">
+    <div *ngIf="pet.lost" class="flex flex-col justify-center items-center mt-3 hover:cursor-pointer rounder-md bg-white w-[90vw] rounded-md">
         <button (click)="handleAddSighting()" type="button" class="bg-blue-button hover:bg-blue-button-hover rounded-full px-2 py-1 w-1/3 mt-2">Add Sighting</button>
         <div *ngIf="sightingsArray.length === 0">
             no sightings
