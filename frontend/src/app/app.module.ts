@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AboutComponent } from './components/about/about.component';
 import { BoardsComponent } from './components/boards/boards.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
@@ -31,7 +30,6 @@ import { modalOpen } from './state/modalopen/modalopen.reducer';
     AppComponent,
     LoginComponent,
     NavbarComponent,
-    AboutComponent,
     BoardsComponent,
     ReportsComponent,
     MyProfileComponent,

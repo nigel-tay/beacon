@@ -43,14 +43,14 @@ export class AuthService {
   
         if (expirationTime !== undefined && Date.now() >= expirationTime) {
           this.store.dispatch(disableLoginItems());
-          if (this.currentComponent !== 'login' && this.currentComponent !== 'register' && this.currentComponent !== 'about' && this.currentComponent !== 'boards') {
+          if (this.currentComponent !== 'login' && this.currentComponent !== 'register' && this.currentComponent !== 'boards') {
             alert("Your session has expired. Please login again");
           }
           this.logout();
         }
       }
       else {
-        if (this.currentComponent !== 'login' && this.currentComponent !== 'register' && this.currentComponent !== 'about' && this.currentComponent !== 'boards') {
+        if (this.currentComponent !== 'login' && this.currentComponent !== 'register' && this.currentComponent !== 'boards') {
           alert("Your session has expired. Please login again");
         }
         this.logout();
@@ -60,7 +60,7 @@ export class AuthService {
   logout() {
     this.setAuthToken(null);
     this.store.dispatch(disableLoginItems());
-    if (this.currentComponent !== 'login' && this.currentComponent !== 'register' && this.currentComponent !== 'about' && this.currentComponent !== 'boards') {
+    if (this.currentComponent !== 'login' && this.currentComponent !== 'register' && this.currentComponent !== 'boards') {
       this.router.navigate(['/login']);
     }
   }
