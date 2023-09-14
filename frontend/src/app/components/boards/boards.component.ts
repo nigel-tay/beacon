@@ -30,6 +30,7 @@ export class BoardsComponent implements OnInit{
           this.reportsList = [...data.reports];
         },
         error: (data: any) => {
+          this.reportsList = [];
           console.log(data);
         }
       })
