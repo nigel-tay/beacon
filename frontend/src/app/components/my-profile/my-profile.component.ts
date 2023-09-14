@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Pet } from 'src/app/interface/pet';
 import { User } from 'src/app/interface/user';
@@ -75,12 +75,14 @@ export class MyProfileComponent implements OnInit, AfterViewInit{
     if (this.user.address == this.copiedUser.address) {
       alert('Please select an address from the dropdown');
     }
-    this.httpService.request('PUT', '/api/users/edit/', this.user)
+    this.httpService.request('PUT', '/api/users/edit', this.copiedUser)
       .subscribe({
         next: (data: User) => {
           this.user = data;
+          window.location.reload();
         },
         error: (data: any) => {
+          console.log(data)
           alert(data.error.message);
         },
       })

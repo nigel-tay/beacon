@@ -80,7 +80,7 @@ public class UserRepository {
                         user.getPassword(),
                         user.getAddress(),
                         user.getLat(),
-                        user.getLat(),
+                        user.getLng(),
                         user.getImage());
     }
 
