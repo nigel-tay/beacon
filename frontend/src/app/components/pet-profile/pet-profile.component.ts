@@ -116,15 +116,9 @@ export class PetProfileComponent implements OnInit{
         lat: event.latLng.lat(),
         lng: event.latLng.lng(),
       },
-      label: {
-        color: 'blue',
-        text: 'Marker label ' + (this.markers.length + 1),
-      },
-      title: 'Marker title ' + (this.markers.length + 1),
-      info: 'Marker info ' + (this.markers.length + 1),
       options: {
         animation: google.maps.Animation.DROP,
-      },
+      }
     })
   }
 

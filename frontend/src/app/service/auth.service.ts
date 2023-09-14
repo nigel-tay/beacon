@@ -9,6 +9,8 @@ import { enableLoginItems, disableLoginItems } from 'src/app/state/navloginenabl
 })
 export class AuthService {
 
+  currentComponent = window.location.href.split('/#/')[1];
+
   constructor(
     private router: Router,
     private store: Store<{ navLoginEnable: boolean }>,
@@ -34,7 +36,6 @@ export class AuthService {
   
 
   verifyTokenValidity() {
-    let currentComponent = window.location.href.split('/#/')[1];
       if (this.getAuthToken() !== null && this.getAuthToken() !== undefined) {
         const token: string | null = this.getAuthToken()
         const tokenPayload: JwtPayload = jwt_decode(token as string);
@@ -42,14 +43,14 @@ export class AuthService {
   
         if (expirationTime !== undefined && Date.now() >= expirationTime) {
           this.store.dispatch(disableLoginItems());
-          if (currentComponent !== 'login' && currentComponent !== 'register' && currentComponent !== 'about') {
+          if (this.currentComponent !== 'login' && this.currentComponent !== 'register' && this.currentComponent !== 'about') {
             alert("Your session has expired. Please login again");
           }
           this.logout();
         }
       }
       else {
-        if (currentComponent !== 'login' && currentComponent !== 'register' && currentComponent !== 'about') {
+        if (this.currentComponent !== 'login' && this.currentComponent !== 'register' && this.currentComponent !== 'about') {
           alert("Your session has expired. Please login again");
         }
         this.logout();
@@ -59,7 +60,9 @@ export class AuthService {
   logout() {
     this.setAuthToken(null);
     this.store.dispatch(disableLoginItems());
-    this.router.navigate(['/login']);
+    if (this.currentComponent !== 'login' && this.currentComponent !== 'register' && this.currentComponent !== 'about') {
+      this.router.navigate(['/login']);
+    }
   }
 
   // User data
