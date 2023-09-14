@@ -20,6 +20,11 @@ public class UserRepository {
                 INSERT INTO beacon_user (id, username, email, password, address, lat, lng, image)
                 VALUES (?,?,?,?,?,?,?,?);
             """;
+    private String SQL_UPDATE_USER_ADDRESS = """
+                UPDATE beacon_user 
+                SET address = ?, lat = ?, lng = ?
+                WHERE id = ?; 
+    """;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -65,7 +70,6 @@ public class UserRepository {
     }
 
     public Integer insertNewUser(User user) {
-        System.out.println(user);
         if (user.getAddress() == null) {
             throw new AppException("Address format incorrect, please select an address from the dropdown", HttpStatus.BAD_REQUEST);
         }
@@ -78,5 +82,22 @@ public class UserRepository {
                         user.getLat(),
                         user.getLat(),
                         user.getImage());
+    }
+
+    public User putUserById(User user) {
+        Optional<User> optionalUser = findUserById(user.getId());
+        if (!optionalUser.isEmpty()) {
+            User returnedUser = optionalUser.get();
+            jdbcTemplate.update(SQL_UPDATE_USER_ADDRESS, 
+                            user.getAddress(),
+                            user.getLat(),
+                            user.getLng(),
+                            user.getId());
+
+            return returnedUser;
+        }
+        else {
+            throw new AppException("Something went wrong updating address, please try again later", HttpStatus.BAD_REQUEST);
+        }
     }
 }

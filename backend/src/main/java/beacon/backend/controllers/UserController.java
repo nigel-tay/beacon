@@ -5,9 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import beacon.backend.models.User;
 import beacon.backend.services.UserService;
 import jakarta.json.JsonObject;
 
@@ -24,9 +26,10 @@ public class UserController {
         return ResponseEntity.ok(userJsonObject.toString());
     }
 
-    @PutMapping("/edit/{id}")
-    public ResponseEntity<String> putUserById(@PathVariable String id) {
-        JsonObject userJsonObject = userService.putUserById(id);
+    @PutMapping("/edit")
+    public ResponseEntity<String> putUserById(@RequestBody User user) {
+        System.out.println(user);
+        JsonObject userJsonObject = userService.putUserById(user);
         return ResponseEntity.ok(userJsonObject.toString());
     }
 }

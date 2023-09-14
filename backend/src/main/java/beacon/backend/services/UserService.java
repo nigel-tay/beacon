@@ -78,10 +78,9 @@ public class UserService {
         return urlString;
     }
 
-    public JsonObject putUserById(String id) {
-        User user = userRepository.putUserById(id)
-                              .orElseThrow(() -> new AppException("Unable to update address. Please choose address from dropdown", HttpStatus.NOT_FOUND));
-        return createUserJsonObject(user);
+    public JsonObject putUserById(User user) {
+        User returnedUser = userRepository.putUserById(user);
+        return createUserJsonObject(returnedUser);
     }
 
     public JsonObject createUserJsonObject(User user) {

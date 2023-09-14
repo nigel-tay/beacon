@@ -19,6 +19,7 @@ export class MyProfileComponent implements OnInit, AfterViewInit{
   editAddressInput!: ElementRef;
 
   modalOpen!: boolean;
+  copiedUser!: User;
   user!: User;
   petsArray!: Pet[]
 
@@ -44,7 +45,17 @@ export class MyProfileComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    this.placesService.initialisePlacesAutoComplete(this.autocomplete, this.editAddressInput, this.user);
+    this.copiedUser = {
+      id: this.user.id,
+      address: this.user.address,
+      email: this.user.email,
+      username: this.user.username,
+      password: this.user.password,
+      lat: this.user.lat,
+      lng: this.user.lng,
+      image: this.user.image
+    }
+    this.placesService.initialisePlacesAutoComplete(this.autocomplete, this.editAddressInput, this.copiedUser);
   }
 
   // get id param, make call to BE to retrieve user info
@@ -52,7 +63,6 @@ export class MyProfileComponent implements OnInit, AfterViewInit{
     this.httpService.request('GET', `/api/users/${userId}`, '')
       .subscribe((data: User) => {
         this.user = data;
-        
       })
   }
 
@@ -61,7 +71,19 @@ export class MyProfileComponent implements OnInit, AfterViewInit{
   }
 
   handleEditAddressSubmit() {
-    this.httpService.request('PUT', `/api/users/edit/${this.user.id}`, this.user)
+    //they will be the same if
+    if (this.user.address == this.copiedUser.address) {
+      alert('Please select an address from the dropdown');
+    }
+    this.httpService.request('PUT', '/api/users/edit/', this.user)
+      .subscribe({
+        next: (data: User) => {
+          this.user = data;
+        },
+        error: (data: any) => {
+          alert(data.error.message);
+        },
+      })
     this.store.dispatch(toggleModal());
   }
 }
