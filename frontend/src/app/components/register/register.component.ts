@@ -87,7 +87,6 @@ export class RegisterComponent implements OnInit, AfterViewInit{
     this.user.email = this.registerForm.value.email;
     this.user.username = this.registerForm.value.username;
     this.user.password = this.registerForm.value.password;
-    console.log(this.user);
     
     this.httpService.request('POST', '/api/register', this.user)
       .subscribe({

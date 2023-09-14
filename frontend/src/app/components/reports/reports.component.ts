@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Reports } from 'src/app/interface/reports';
 import { ZoneBoundaries } from 'src/app/interface/zone-boundaries';
+import { AuthService } from 'src/app/service/auth.service';
 import { HttpService } from 'src/app/service/http.service';
 import { PetService } from 'src/app/service/pet.service';
 import { PlacesService } from 'src/app/service/places.service';
@@ -60,10 +61,12 @@ export class ReportsComponent implements OnInit{
     private fb: FormBuilder,
     private placesService: PlacesService,
     private httpService: HttpService,
-    private petService: PetService
+    private petService: PetService,
+    private authService: AuthService
   ){}
 
   ngOnInit(): void {
+    this.authService.verifyTokenValidity();
     let petId: string = this.activatedRoute.snapshot.params['id'];
     this.report = {
       id: "",
@@ -115,7 +118,6 @@ export class ReportsComponent implements OnInit{
     this.report.dateTime = this.reportFormGroup.value.dateTime.toString();    
     this.report.zone = this.determineZone(parseFloat(this.report.lat), parseFloat(this.report.lng));
     this.report.description = this.reportFormGroup.value.description;
-    console.log(this.report)
     this.httpService.request('POST', '/api/pets/reports',this.report)
       .subscribe({
         next: (data: any) => {

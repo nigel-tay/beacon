@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Pet } from 'src/app/interface/pet';
 import { User } from 'src/app/interface/user';
+import { AuthService } from 'src/app/service/auth.service';
 import { HttpService } from 'src/app/service/http.service';
 import { PetService } from 'src/app/service/pet.service';
 import { PlacesService } from 'src/app/service/places.service';
@@ -30,12 +31,14 @@ export class MyProfileComponent implements OnInit, AfterViewInit{
     private petService: PetService,
     private placesService: PlacesService,
     private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
     private store: Store<{ modalOpen: boolean }>
     ){
       store.select('modalOpen').subscribe(data => this.modalOpen = data);
     }
 
   ngOnInit(): void {
+    this.authService.verifyTokenValidity();
     let userId: string = this.activatedRoute.snapshot.params['id'];
     this.getUserData(userId);
     this.petService.getPetsData(userId)
@@ -71,7 +74,6 @@ export class MyProfileComponent implements OnInit, AfterViewInit{
   }
 
   handleEditAddressSubmit() {
-    console.log(this.editAddressInput.nativeElement.value.length);
     
     if (this.user.address == this.copiedUser.address && this.editAddressInput.nativeElement.value.length !== 0) {
       alert('Please select an address from the dropdown');
@@ -90,7 +92,6 @@ export class MyProfileComponent implements OnInit, AfterViewInit{
           window.location.reload();
         },
         error: (data: any) => {
-          console.log(data)
           alert(data.error.message);
         },
       })

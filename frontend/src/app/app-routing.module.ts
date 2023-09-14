@@ -11,6 +11,7 @@ import { RegisterPetComponent } from './components/register-pet/register-pet.com
 import { SightingComponent } from './components/sighting/sighting.component';
 
 const routes: Routes = [
+  {path: "", component: LoginComponent},
   {path: "login", component: LoginComponent},
   {path: "logout", component: LogoutComponent},
   {path: "register", component: RegisterComponent},

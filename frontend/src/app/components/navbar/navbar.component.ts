@@ -29,8 +29,7 @@ export class NavbarComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.authService.verifyTokenValidity();
-    if (window.screen.width <= 640) { // 768px portrait
+    if (window.screen.width <= 640) {
       this.store.dispatch(isMobile());
     }
     else if (window.screen.width > 640 && window.screen.width <= 768) {

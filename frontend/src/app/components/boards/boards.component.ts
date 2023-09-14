@@ -39,8 +39,6 @@ export class BoardsComponent implements OnInit{
             this.petsList = [];
             this.petService.getPetData(report.pet_id)
               .subscribe(data => {   
-                console.log(data);
-                
                 let pet: Pet = {
                   id: data.id,
                   ownerId: data.owner_id,
@@ -56,7 +54,6 @@ export class BoardsComponent implements OnInit{
         error: (data: any) => {
           this.reportsList = [];
           this.petsList = [];
-          console.log(data);
         }
       })
   }
@@ -73,7 +70,6 @@ export class BoardsComponent implements OnInit{
   getTotalPages() {
     this.petService.getTotalReportPages()
       .subscribe(data => {
-        console.log(data.pages);
         
         for (let i = 0; i < data.pages; i++) {
           this.totalPages.push(i+1);
@@ -83,8 +79,6 @@ export class BoardsComponent implements OnInit{
 
   onPageChange(newPage: number) {
     this.currentPage = newPage;
-    console.log(this.currentPage);
-    console.log(newPage)
     
     this.getReportsByRegion(newPage, this.selectedRegion);
   }

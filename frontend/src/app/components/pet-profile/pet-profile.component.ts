@@ -74,6 +74,7 @@ export class PetProfileComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
+    this.authService.verifyTokenValidity();
     this.store.select('viewWidth')
       .subscribe(data => this.viewWidth = data);
     this.userId = this.authService.getUserId();
@@ -136,10 +137,6 @@ export class PetProfileComponent implements OnInit{
     .subscribe({
       next: (data: any) => {
         this.sightingsArray = [...data.sightings];
-      },
-      error: (data: any) => {
-        console.log(data.error.message);
-        
       }
     })
   }

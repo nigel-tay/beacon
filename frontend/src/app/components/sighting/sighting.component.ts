@@ -31,6 +31,7 @@ export class SightingComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
+    this.authService.verifyTokenValidity();
     this.sighting = {
       id: '',
       user_id: '',
@@ -69,9 +70,6 @@ export class SightingComponent implements OnInit{
               next: (data: any) => {
                 alert(data.message);
                 this.router.navigate([`/pet-profile/${this.petId}`])
-              },
-              error: (data: any) => {
-                console.log(data.error.message)
               }
             });
         });

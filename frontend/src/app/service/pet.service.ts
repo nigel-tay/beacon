@@ -23,9 +23,7 @@ export class PetService {
     return this.httpService.request('GET', `/api/pets/user/${userId}`, '');
   }
 
-  getPetData(petId: string): Observable<any> {
-    console.log(petId);
-    
+  getPetData(petId: string): Observable<any> {   
     return this.httpService.request('GET', `/api/pets/${petId}`, '');
   }
 

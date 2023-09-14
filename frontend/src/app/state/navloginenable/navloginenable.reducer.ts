@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { enableLoginItems, disableLoginItems } from './navloginenable.actions';
 
-export const initialState: boolean = true;
+export const initialState: boolean = false;
 
 export const navLoginEnable = createReducer (
     initialState,

@@ -37,6 +37,7 @@ export class RegisterPetComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
+    this.authService.verifyTokenValidity();
     this.pet = {
       id: "",
       ownerId: "",
@@ -47,10 +48,8 @@ export class RegisterPetComponent implements OnInit {
     }
     this.petService.getAllFeatures()
           .subscribe((data: any) => {
-            console.log(data)
             if (data.length > 0) {
               this.dbFeaturesArray = [...data];
-              console.log(this.dbFeaturesArray);
             }
           })
     this.initialisePetForm();
@@ -77,10 +76,8 @@ export class RegisterPetComponent implements OnInit {
       pet_id: this.pet.id,
       features: [...this.featuresArray]
     }
-    console.log(featuresDto)
     this.httpService.request('POST', '/api/pets/features', featuresDto)
       .subscribe((data: any) => {
-        console.log(data.message);
       })
   }
 
@@ -94,7 +91,6 @@ export class RegisterPetComponent implements OnInit {
           this.pet.name = this.petFormGroup.value.name;
           this.pet.type = this.petFormGroup.value.type.toLowerCase();
           this.pet.lost = this.lostInput.nativeElement.checked ? 1 : 0;
-          console.log(this.pet);
           this.httpService.request('POST', '/api/pets/add', this.pet)
             .subscribe((data: any) => {
               this.postFeatures();
