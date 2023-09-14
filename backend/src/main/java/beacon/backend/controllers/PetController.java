@@ -50,6 +50,12 @@ public class PetController {
         return ResponseEntity.ok(ja.toString());
     }
 
+    @GetMapping("/features/{petId}")
+    public ResponseEntity<String> getAllFeaturesById(@PathVariable String petId) {
+        JsonArray ja = petService.getAllFeaturesById(petId);
+        return ResponseEntity.ok(ja.toString());
+    }
+
     @GetMapping("/user/{userId}")
     public ResponseEntity<String> getPetsByUserId(@PathVariable String userId) {
         JsonObject petListJson = petService.getPetsByUserId(userId);

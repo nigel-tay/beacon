@@ -41,6 +41,7 @@ export class PetProfileComponent implements OnInit{
   userId!: string | null;
 
   sightingsArray: Sighting[] = [];
+  featuresArray: string[] = [];
   currentPage: number = 1;
   pageSize: number = 3;
   totalPages: number[] = [];
@@ -79,6 +80,11 @@ export class PetProfileComponent implements OnInit{
         this.pet.type = data.type;
         this.pet.image = data.image;
         this.pet.lost = data.lost;
+
+        this.petService.getAllFeaturesByPetId(this.pet.id)
+          .subscribe(data => {
+            this.featuresArray = [...data];
+          })
         
         if (this.pet.lost) {
           this.petService.getReport(this.pet.id)

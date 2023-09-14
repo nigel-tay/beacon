@@ -22,6 +22,13 @@ import beacon.backend.records.ReportDto;
 public class PetRepository {
 
     private String SQL_GET_FEATURES = "SELECT * FROM features;";
+    private String SQL_GET_FEATURES_BY_ID = """
+        SELECT f.id AS id, f.feature AS feature
+        FROM pet p
+        INNER JOIN pet_features pf ON p.id = pf.pet_id
+        INNER JOIN features f ON pf.features_id = f.id
+        WHERE p.id = ?;        
+    """;
     private String SQL_GET_FEATURES_BY_COLUMN = "SELECT * FROM features WHERE feature = ?;";
     private String SQL_GET_PETS_BY_USER_ID = "SELECT * FROM pet WHERE owner_id = ?;";
     private String SQL_GET_PET_BY_ID = "SELECT * FROM pet WHERE id = ?;";
@@ -75,6 +82,24 @@ public class PetRepository {
     public Optional<List<Features>> getAllFeatures() {
         List<Features> featureList = new ArrayList<>();
         SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_GET_FEATURES);
+        
+        while (rs.next()) {
+            Features pf = new Features();
+            pf.setId(rs.getString("id"));
+            pf.setFeature(rs.getString("feature"));
+            featureList.add(pf);
+        }
+    
+        if (featureList.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(featureList);
+        }
+    }
+
+    public Optional<List<Features>> getAllFeaturesById(String petId) {
+        List<Features> featureList = new ArrayList<>();
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_GET_FEATURES_BY_ID, petId);
         
         while (rs.next()) {
             Features pf = new Features();

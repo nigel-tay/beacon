@@ -61,6 +61,20 @@ public class PetService {
         return Json.createArrayBuilder(featureStrings).build();
     }
 
+    public JsonArray getAllFeaturesById(String petId) {
+        Optional<List<Features>> featureList = petRepository.getAllFeaturesById(petId);
+        List<String> featureStrings = new ArrayList<>();
+
+        featureList.ifPresent(features -> {
+            features.forEach(feature -> {
+                if (feature != null && feature.getFeature() != null) {
+                    featureStrings.add(feature.getFeature());
+                }
+            });
+        });
+        return Json.createArrayBuilder(featureStrings).build();
+    }
+
     public JsonObject getPetsByUserId(String userId) {
         Optional<List<Pet>> returnedPetList = petRepository.getPetsByUserId(userId);
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();

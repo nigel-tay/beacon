@@ -15,6 +15,10 @@ export class PetService {
     return this.httpService.request('GET', '/api/pets/features', '');
   }
 
+  getAllFeaturesByPetId(petId: string):Observable<any> {
+    return this.httpService.request('GET', `/api/pets/features/${petId}`, '')
+  }
+
   getPetsData(userId: string): Observable<any> {
     return this.httpService.request('GET', `/api/pets/user/${userId}`, '');
   }
