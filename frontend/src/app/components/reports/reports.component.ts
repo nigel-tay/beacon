@@ -107,6 +107,10 @@ export class ReportsComponent implements OnInit{
   }
 
   handleFormSubmit() {
+    if (this.report.lat.length === 0) {
+      alert("Please select an address from the dropdown")
+      return;
+    }
     this.report.id = crypto.randomUUID().toString();
     this.report.dateTime = this.reportFormGroup.value.dateTime.toString();    
     this.report.zone = this.determineZone(parseFloat(this.report.lat), parseFloat(this.report.lng));

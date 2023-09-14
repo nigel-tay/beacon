@@ -42,63 +42,61 @@ public class SightingController {
     @GetMapping("/sightings")
     public ResponseEntity<String> getAllSightings(
         @RequestParam int page,
-            @RequestParam int pageSize,
-            @RequestParam String reportId) {
-                Optional<List<Sighting>> sightings = sightingService.getAllSightings(page, pageSize, reportId);
-                JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        @RequestParam int pageSize,
+        @RequestParam String reportId) {
+        Optional<List<Sighting>> sightings = sightingService.getAllSightings(page, pageSize, reportId);
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        
+        if (sightings.isPresent()) {
+            sightings.ifPresent(pets -> {
+                JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+                pets.forEach(sighting -> {
+                    if (sighting != null) {
+                        JsonObjectBuilder sightingBuilder = Json.createObjectBuilder()
+                        .add("id", sighting.getId())
+                        .add("user_id", sighting.getUser_id())
+                        .add("report_id", sighting.getReport_id())
+                        .add("content", sighting.getContent())
+                        .add("date_time", sighting.getDate_time())
+                        .add("image", sighting.getImage())
+                        .add("deleted", sighting.getDeleted());
+                        jsonArrayBuilder.add(sightingBuilder);
+                    }
+                });
                 
-                if (sightings.isPresent()) {
-                    sightings.ifPresent(pets -> {
-                        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-                        pets.forEach(sighting -> {
-                            if (sighting != null) {
-                                JsonObjectBuilder sightingBuilder = Json.createObjectBuilder()
-                                .add("id", sighting.getId())
-                                .add("user_id", sighting.getUser_id())
-                                .add("report_id", sighting.getReport_id())
-                                .add("content", sighting.getContent())
-                                .add("date_time", sighting.getDate_time())
-                                .add("image", sighting.getImage())
-                                .add("deleted", sighting.getDeleted());
-                                jsonArrayBuilder.add(sightingBuilder);
-                            }
-                        });
-                        
-                        JsonArray sightingArray = jsonArrayBuilder.build();
-                        jsonObjectBuilder.add("sightings", sightingArray);
-                    });
-                }
-                else {
-                    throw new AppException("Requested Page does not exist", HttpStatus.BAD_REQUEST);
-                }
-                return ResponseEntity.ok(jsonObjectBuilder.build().toString());
-            }
+                JsonArray sightingArray = jsonArrayBuilder.build();
+                jsonObjectBuilder.add("sightings", sightingArray);
+            });
+        }
+        else {
+            throw new AppException("Requested Page does not exist", HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(jsonObjectBuilder.build().toString());
+    }
             
-            @GetMapping("/sightings/count")
-            public ResponseEntity<String> getTotalPages() {
-                JsonObject jo = Json.createObjectBuilder()
-                .add("pages", sightingService.getTotalPages())
-                .build();
-                return ResponseEntity.ok(jo.toString());
-            }
-            
-            @PostMapping("/sightings")
-            public ResponseEntity<String> postSighting(@RequestBody SightingDto sightingDto) {
-                sightingService.postSighting(sightingDto);
-                JsonObject jo = Json.createObjectBuilder()
-                                .add("message", "Sighting created")
-                                .build();
-                return ResponseEntity.ok(jo.toString());
-            }
+    @GetMapping("/sightings/count")
+    public ResponseEntity<String> getTotalPages() {
+        JsonObject jo = Json.createObjectBuilder()
+        .add("pages", sightingService.getTotalPages())
+        .build();
+        return ResponseEntity.ok(jo.toString());
+    }
+    
+    @PostMapping("/sightings")
+    public ResponseEntity<String> postSighting(@RequestBody SightingDto sightingDto) {
+        sightingService.postSighting(sightingDto);
+        JsonObject jo = Json.createObjectBuilder()
+                        .add("message", "Sighting created")
+                        .build();
+        return ResponseEntity.ok(jo.toString());
+    }
 
-            @PutMapping("/sightings/{petId}")
-            public ResponseEntity<String> setPetAsLost(@PathVariable String petId, @RequestBody String lostValue) {
-                petService.putPetLostValue(petId, lostValue);
-                JsonObject jo = Json.createObjectBuilder()
-                                .add("message", "Pet set as lost")
-                                .build();
-                return ResponseEntity.ok(jo.toString());
-            }
-
-    // }
+    @PutMapping("/sightings/{petId}")
+    public ResponseEntity<String> setPetAsLost(@PathVariable String petId, @RequestBody String lostValue) {
+        petService.putPetLostValue(petId, lostValue);
+        JsonObject jo = Json.createObjectBuilder()
+                        .add("message", "Pet set as lost")
+                        .build();
+        return ResponseEntity.ok(jo.toString());
+    }
 }

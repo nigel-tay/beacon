@@ -110,6 +110,19 @@ export class PetProfileComponent implements OnInit{
       )  
   }
 
+  handleMarkPetAsFound() {   
+    this.petService.putReportClosed(this.report.id, this.pet.id)
+      .subscribe({
+        next: (data: any) => {
+          alert(data.message)
+          window.location.reload();
+        },
+        error: (data: any) => {
+          alert(data.error.message);
+        }
+      })
+  }
+
   loadSightingsByPage(page: number, pageSize: number, reportId: string) {
     this.petService.getAllSightings(page, pageSize, reportId)
     .subscribe({
@@ -117,16 +130,15 @@ export class PetProfileComponent implements OnInit{
         this.sightingsArray = [...data.sightings];
       },
       error: (data: any) => {
-        console.log(data);
+        console.log(data.error.message);
+        
       }
     })
   }
 
   getTotalPages() {
     this.petService.getTotalPages()
-      .subscribe(data => {
-        console.log(data.pages);
-        
+      .subscribe(data => {        
         for (let i = 0; i < data.pages; i++) {
           this.totalPages.push(i+1);
         }
@@ -175,16 +187,13 @@ export class PetProfileComponent implements OnInit{
 
   zoomIn() {
     if (this.zoom < this.maxZoom) this.zoom++;
-    console.log('Get Zoom',this.map.getZoom());
   }
 
   zoomOut() {
     if (this.zoom > this.minZoom) this.zoom--;
   }
 
-  eventHandler(event: any ,name:string){
-    console.log(event,name);
-    
+  eventHandler(event: any ,name:string){   
     // Add marker on double click event
     if(name === 'mapDblclick'){
       this.dropMarker(event)

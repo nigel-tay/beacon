@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -84,6 +85,15 @@ public class PetController {
         petService.postReport(reportDto);
         JsonObject jo = Json.createObjectBuilder()
                         .add("message", "Report created")
+                        .build();
+        return ResponseEntity.ok(jo.toString());
+    }
+
+    @PutMapping("/reports")
+    public ResponseEntity<String> putReportClosed(@RequestParam String reportId, @RequestParam String petId) {
+        petService.putReportClosed(reportId, petId);
+        JsonObject jo = Json.createObjectBuilder()
+                        .add("message", "Report closed successfully")
                         .build();
         return ResponseEntity.ok(jo.toString());
     }

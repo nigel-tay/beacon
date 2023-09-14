@@ -13,6 +13,7 @@
                 type="button"
                 class="mt-5 text-2xl py-2 px-6 rounded-full border bg-blue-button  hover:bg-blue-button-hover"
                 >Report Lost</button>
+                <button *ngIf="pet.lost && userId === pet.ownerId" (click)="handleMarkPetAsFound()" type="button" class="bg-blue-button hover:bg-blue-button-hover rounded-full px-2 py-1 w-2/3 mt-2">Mark Pet as Found</button>
         </div>
     </div>
     <div *ngIf="report.id" class="bg-yellow-primary rounded-t-md mt-5 w-[90vw] h-64 flex flex-col items-center">

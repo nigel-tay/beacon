@@ -50,6 +50,11 @@ public class PetRepository {
         SET lost = ?
         WHERE id = ?;        
     """;
+    private String SQL_UPDATE_REPORT_CLOSED = """
+        UPDATE report 
+        SET closed = ?
+        WHERE id = ?;        
+    """;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -186,6 +191,14 @@ public class PetRepository {
 
         if (result < 1) {
             throw new AppException("Lost could not be updated", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public void putReportClosed(String reportId) {
+        int result = jdbcTemplate.update(SQL_UPDATE_REPORT_CLOSED, "1", reportId);
+
+        if (result < 1) {
+            throw new AppException("Report could not be marked as closed", HttpStatus.BAD_REQUEST);
         }
     }
 }

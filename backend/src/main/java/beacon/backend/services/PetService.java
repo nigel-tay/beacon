@@ -147,4 +147,10 @@ public class PetService {
     public void putPetLostValue(String petId, String lostValue) {
         petRepository.putPetLostValue(petId, lostValue);
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void putReportClosed(String reportId, String petId) {
+        putPetLostValue(petId, "0");
+        petRepository.putReportClosed(reportId);
+    }
 }

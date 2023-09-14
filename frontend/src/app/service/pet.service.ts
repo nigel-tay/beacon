@@ -39,4 +39,8 @@ export class PetService {
     return this.httpService.request('PUT', `/api/sightings/${petId}`, lostValue)
   }
 
+  putReportClosed(reportId: string, petId: string) {
+    return this.httpService.request('PUT', `/api/pets/reports?reportId=${reportId}&petId=${petId}`, '');
+  }
+
 }
