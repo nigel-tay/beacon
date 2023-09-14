@@ -1,6 +1,5 @@
 <div class="flex flex-col w-[100vw] justify-center items-center">
-    <label for="region">Select region:</label>
-    <select id="region" name="region" [(ngModel)]="selectedRegion">
+    <select id="region" name="region" [(ngModel)]="selectedRegion" class="mt-2">
         <option value="" selected>All Regions</option>
       <option value="central">Central</option>
       <option value="east">East</option>
@@ -10,7 +9,7 @@
       <option value="others">Others</option>
     </select>
     <button
-        class="mt-5 mb-5 text-md py-2 px-6 w-3/4 rounded-full border bg-blue-button  hover:bg-blue-button-hover"
+        class="mt-5 md:mt-2 mb-3 md:mb-0 text-md py-2 px-6 w-auto rounded-full border bg-blue-button  hover:bg-blue-button-hover"
         type="button"
         (click)="handleSearchReportsFromRegion(selectedRegion)">Search Region</button>
     <div *ngIf="petsList.length === 0">No lost pets here!</div>
@@ -18,8 +17,8 @@
         <div class="flex flex-start w-[100vw] justify-between" *ngIf="petsList.length > 0 && dependentRegion === ''">
             <div [className]="
             currentPage === page ?
-            'bg-yellow-primary w-[40px] h-[40px] text-center rounded-t-lg text-2xl border-x border-t' :
-            'bg-pink-accent w-[40px] h-[40px] text-center rounded-t-lg text-2xl border-x border-t border-b'"
+            'bg-yellow-primary w-[40px] h-[40px] text-center rounded-t-lg text-2xl border-x border-t hover:cursor-pointer hover:text-white' :
+            'bg-pink-accent w-[40px] h-[40px] text-center rounded-t-lg text-2xl border-x border-t border-b hover:cursor-pointer hover:text-white'"
             *ngFor="let page of totalPages" (click)="onPageChange(page)">{{page}}</div>
             <div class="w-full border-b"></div>
         </div>
