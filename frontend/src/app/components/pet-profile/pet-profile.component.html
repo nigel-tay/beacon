@@ -17,6 +17,7 @@
                 <div class="mt-5 bg-yellow-primary w-[90%] p-2 rounded-md flex flex-col items-start border">
                     Features:
                     <div class="flex flex-wrap">
+                        <div *ngIf="featuresArray.length === 0">Not indicated</div>
                         <div *ngFor="let selectedFeature of featuresArray" class="px-2 py-1 mx-1 my-1 text-lg border rounded-md">
                             {{selectedFeature}}
                         </div>
