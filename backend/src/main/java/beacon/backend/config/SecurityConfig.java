@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/login", "/api/register", "/api/upload").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/pets/features", "/api/pets/add", "/api/sightings").authenticated()
                 .requestMatchers(HttpMethod.PUT, "/api/pets/lost/**", "/api/users/edit").authenticated()
-                .requestMatchers(HttpMethod.GET, "/api/pets/**").authenticated()
+                .requestMatchers(HttpMethod.GET, "/api/pets/**", "/api/sightings**").authenticated()
                 .anyRequest().authenticated());
         return http.build();
     }

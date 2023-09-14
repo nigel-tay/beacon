@@ -57,7 +57,15 @@
         <div *ngIf="sightingsArray.length === 0">
             no sightings
         </div>
-        <div *ngFor="let sighting of sightingsArray" class="py-2 px-5 border-b border-t">
+        <div class="flex flex-start w-full">
+            <div [className]="
+            currentPage === page ?
+            'bg-pink-accent w-[40px] h-[40px] text-center rounded-t-lg text-2xl' :
+            'bg-yellow-primary w-[40px] h-[40px] text-center rounded-t-lg text-2xl'"
+            *ngFor="let page of totalPages" (click)="onPageChange(page)">{{page}}</div>
+        </div>
+        <div *ngFor="let sighting of sightingsArray" 
+            class="py-2 px-5 border-b bg-pink-accent">
             <div>@{{sighting.user_id}}</div>
             <div>{{sighting.date_time}}</div>
             <img *ngIf="sighting.image !== null" [src]="sighting.image" class="rounded-md">

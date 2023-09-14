@@ -38,8 +38,12 @@ export class PetProfileComponent implements OnInit{
   @ViewChild(MapInfoWindow, { static: false })
   info!: MapInfoWindow;
 
-  sightingsArray: Sighting[] = [];
   userId!: string | null;
+
+  sightingsArray: Sighting[] = [];
+  currentPage: number = 1;
+  pageSize: number = 3;
+  totalPages: number[] = [];
 
   markers = []  as  any;
   infoContent = '';
@@ -88,9 +92,12 @@ export class PetProfileComponent implements OnInit{
             this.report.description = data.description;
             this.report.closed = data.closed;
             this.setMapsCenter();
-            })
+            this.loadSightingsByPage(this.currentPage, this.pageSize)
+            this.getTotalPages();
+            }
+          )}
         }
-      })
+      )
   }
 
   handleAddSighting() {
@@ -98,6 +105,34 @@ export class PetProfileComponent implements OnInit{
         ['/sighting'],
         { queryParams: { reportId: this.report.id, petId: this.pet.id } }
       )  
+  }
+
+  loadSightingsByPage(page: number, pageSize: number) {
+    this.petService.getAllSightings(page, pageSize)
+    .subscribe({
+      next: (data: any) => {
+        this.sightingsArray = [...data.sightings];
+      },
+      error: (data: any) => {
+        console.log(data);
+      }
+    })
+  }
+
+  getTotalPages() {
+    this.petService.getTotalPages()
+      .subscribe(data => {
+        console.log(data.pages);
+        
+        for (let i = 0; i < data.pages; i++) {
+          this.totalPages.push(i+1);
+        }
+      })
+  }
+
+  onPageChange(newPage: number) {
+    this.currentPage = newPage;
+    this.loadSightingsByPage(newPage, this.pageSize);
   }
 
   setMapsCenter() {

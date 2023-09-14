@@ -27,7 +27,16 @@ export class PetService {
     return this.httpService.request('GET', `/api/pets/reports/${petId}`, '');
   }
 
-  putPetLost(petId: string, lostValue: any): Observable<any> {
-    return this.httpService.request('PUT', `/api/pets/lost/${petId}`, lostValue)
+  getAllSightings(page: number, pageSize: number): Observable<any> {
+    return this.httpService.request('GET', `/api/sightings?page=${page}&pageSize=${pageSize}`, '');
   }
+
+  getTotalPages(): Observable<any> {
+    return this.httpService.request('GET', '/api/sightings/count', '')
+  }
+
+  putPetLost(petId: string, lostValue: any): Observable<any> {
+    return this.httpService.request('PUT', `/api/sightings`, lostValue)
+  }
+
 }
