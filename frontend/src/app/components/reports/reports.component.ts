@@ -117,7 +117,7 @@ export class ReportsComponent implements OnInit{
         next: (data: any) => {
           this.petService.putPetLost(this.report.petId, '1')
             .subscribe(data => {
-                this.router.navigate(['/pet-profile', this.report.petId])
+                this.router.navigate([`/pet-profile/${this.report.petId}`])
               })
         },
         error: (data: any) => {

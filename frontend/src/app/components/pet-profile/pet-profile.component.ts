@@ -79,6 +79,9 @@ export class PetProfileComponent implements OnInit{
         this.pet.type = data.type;
         this.pet.image = data.image;
         this.pet.lost = data.lost;
+
+        console.log(this.pet.ownerId)
+        console.log(this.userId)
         
         if (this.pet.lost) {
           this.petService.getReport(this.pet.id)

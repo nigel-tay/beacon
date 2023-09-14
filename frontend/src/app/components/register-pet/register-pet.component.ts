@@ -98,10 +98,14 @@ export class RegisterPetComponent implements OnInit {
           this.httpService.request('POST', '/api/pets/add', this.pet)
             .subscribe((data: any) => {
               this.postFeatures();
-              alert("Pet registered successfully!");
-              this.pet.lost > 0 ?
-              this.router.navigate([`/reports`]) :
-              this.router.navigate([`/pet-profile/${data.id}`])
+              if (this.pet.lost > 0) {
+                alert("Pet registered successfully, routing you to lost report form");
+                this.router.navigate([`/reports/${this.pet.id}`])
+              }
+              else {
+                alert("Pet registered successfully!");
+                this.router.navigate([`/pet-profile/${data.id}`])
+              }
             });
         });
   }
