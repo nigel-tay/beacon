@@ -24,6 +24,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { RegisterPetComponent } from './components/register-pet/register-pet.component';
 import { SightingComponent } from './components/sighting/sighting.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { modalOpen } from './state/modalopen/modalopen.reducer';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     StoreModule.forRoot({
       viewWidth: viewwidthReducer,
       mobileNav: mobilenavReducer,
-      navLoginEnable: navLoginEnable
+      navLoginEnable: navLoginEnable,
+      modalOpen: modalOpen
 
     }),
     ServiceWorkerModule.register('ngsw-worker.js', {

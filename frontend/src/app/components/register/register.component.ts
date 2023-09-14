@@ -31,7 +31,8 @@ export class RegisterComponent implements OnInit, AfterViewInit{
     private router: Router,
     private placesService: PlacesService,
     private httpService: HttpService,
-    private authService: AuthService) {}
+    private authService: AuthService,
+    ) {}
   
   ngOnInit(): void {
     this.initialiseRegisterForm();

@@ -1,7 +1,7 @@
 <div class="flex justify-between h-20 bg-yellow-primary sticky">
     <img (click)="closeDropDown()" [routerLink]="loggedIn ? ['/boards'] : ['/login']" class="py-2 pl-8 hover:cursor-pointer" src="/assets/images/navbar_icon.png" alt="Navbar Icon">
 
-    <div *ngIf="viewWidth$ | async as vw" class="h-full">
+    <div *ngIf="viewWidth$ | async as vw" class="h-full w-auto">
         <div *ngIf="vw === 640" class="h-full">
             <button (click)="toggleHamburger()" data-collapse-toggle="hamburger-dropdown" type="button" class="h-full mr-3 p-2 rounded-lg md:hidden focus:ring-2 focus:ring-black">
                 <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">

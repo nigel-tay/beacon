@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-root',
@@ -6,4 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+  modalOpen!: boolean;
+
+  constructor(
+    private store: Store<{ modalOpen: boolean }>
+    ){
+      store.select('modalOpen').subscribe(data => this.modalOpen = data);
+    }
 }
