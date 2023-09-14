@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
-import { ActivatedRoute } from '@angular/router';
+import { GoogleMap, MapInfoWindow, MapMarker, MapAnchorPoint } from '@angular/google-maps';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Pet } from 'src/app/interface/pet';
 import { Reports } from 'src/app/interface/reports';
 import { Sighting } from 'src/app/interface/sighting';
@@ -43,8 +43,8 @@ export class PetProfileComponent implements OnInit{
 
   markers = []  as  any;
   infoContent = '';
-  zoom = 12;
-  maxZoom = 15;
+  zoom = 17;
+  maxZoom = 30;
   minZoom = 8;
   center!: google.maps.LatLngLiteral;
   options: google.maps.MapOptions = {
@@ -54,12 +54,13 @@ export class PetProfileComponent implements OnInit{
     disableDoubleClickZoom: true,
     streetViewControl: false,
     disableDefaultUI: true,
-    maxZoom: 15,
-    minZoom: 8,
+    maxZoom: 30,
+    minZoom: 10,
   }
   
   constructor(
     private petService: PetService,
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService
   ){}
@@ -92,6 +93,10 @@ export class PetProfileComponent implements OnInit{
       })
   }
 
+  handleAddSighting() {
+    this.router.navigate([''])
+  }
+
   setMapsCenter() {
     this.center = {
       lat: parseFloat(this.report.lat),
@@ -105,7 +110,7 @@ export class PetProfileComponent implements OnInit{
       title: 'Marker title ' + (this.markers.length + 1),
       info: 'Last seen location',
       options: {
-        animation: google.maps.Animation.DROP,
+        animation: google.maps.Animation.DROP
       },
     })
   }

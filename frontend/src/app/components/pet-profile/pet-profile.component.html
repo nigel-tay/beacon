@@ -2,8 +2,8 @@
     <div>
         <div 
         [className]="pet.lost ?
-        'bg-pink-accent border mx-1 w-[70vw] p-5 mt-2 flex justify-center items-center flex-col rounded-md' :
-        'bg-yellow-primary border px-1 w-[70vw] p-5 mt-2 flex justify-center items-center flex-col rounded-md'">
+        'bg-pink-accent border mx-1 w-[70vw] p-5 mt-2 flex justify-center items-center flex-col rounded-md md:w-[30vw]' :
+        'bg-yellow-primary border px-1 w-[70vw] p-5 mt-2 flex justify-center items-center flex-col rounded-md md:w-[30vw]'">
             <img [src]="pet.image" alt="User image" class="w-36 rounded-full">
             <div class="text-sm mt-2">{{pet.name}} | {{pet.type}}</div>
         </div>
@@ -21,7 +21,8 @@
     class="mt-5 text-2xl py-2 px-6 rounded-full border bg-blue-button  hover:bg-blue-button-hover"
         >Report Lost</button>
     <div *ngIf="pet.lost">
-        <div class="w-[80vw] h-52 mt-5" *ngIf="report.id.length > 0">
+        <div class="w-[80vw] h-52 mt-5 md:w-[30vw] md:h-80" *ngIf="report.id.length > 0">
+            <h2 class="text-2xl">Last seen:</h2>
             <google-map
                 #googleMap
                 height="100%"
@@ -48,22 +49,22 @@
                 >
                 </map-marker>
             </google-map>
-            <button (click)="zoomIn()">Zoom In</button>
-            <button (click)="zoomOut()">Zoom Out</button>
-        </div>
-        <div class="flex flex-col justify-center mt-3 hover:cursor-pointer rounder-md bg-white">
-            <div *ngIf="sightingsArray.length === 0">
-                no sightings
+            <div class="mt-5">
+                <button (click)="zoomIn()" class="bg-blue-button hover:bg-blue-button-hover rounded-full px-2 py-1">Zoom In</button>
+                <button (click)="zoomOut()" class="bg-blue-button hover:bg-blue-button-hover rounded-full px-2 py-1">Zoom Out</button>
             </div>
-            <div *ngFor="let sighting of sightingsArray" class="py-2 px-5 border-b border-t">
-                <div>@{{sighting.user_id}}</div>
-                <div>{{sighting.date_time}}</div>
-                <img *ngIf="sighting.image !== null" [src]="sighting.image" class="rounded-md">
-                <div>{{sighting.content}}</div>
+            <div class="flex flex-col justify-center mt-3 hover:cursor-pointer rounder-md bg-white">
+                <button (click)="handleAddSighting()" type="button" class="bg-blue-button hover:bg-blue-button-hover rounded-full px-2 py-1 w-1/3">Add Sighting</button>
+                <div *ngIf="sightingsArray.length === 0">
+                    no sightings
+                </div>
+                <div *ngFor="let sighting of sightingsArray" class="py-2 px-5 border-b border-t">
+                    <div>@{{sighting.user_id}}</div>
+                    <div>{{sighting.date_time}}</div>
+                    <img *ngIf="sighting.image !== null" [src]="sighting.image" class="rounded-md">
+                    <div>{{sighting.content}}</div>
+                </div>
             </div>
-        </div>
-        <div>
-
         </div>
     </div>
 </div>

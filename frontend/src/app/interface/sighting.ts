@@ -5,4 +5,5 @@ export interface Sighting {
     content: string;
     date_time: string;
     image: string;
+    deleted: number;
 }
