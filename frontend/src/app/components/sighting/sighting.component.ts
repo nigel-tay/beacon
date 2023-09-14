@@ -31,6 +31,16 @@ export class SightingComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
+    this.sighting = {
+      id: '',
+      user_id: '',
+      report_id: '',
+      content: '',
+      date_time: '',
+      image: '',
+      deleted: 0
+    }
+
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.reportId = params['reportId'];
@@ -38,34 +48,33 @@ export class SightingComponent implements OnInit{
         this.userId = this.authService.getUserId();
       }
     );
+    this.initialiseSightingForm();
   }
 
-  handleSightingFormSubmit() {
-
+  handleSightingFormSubmit() {    
     const formData = new FormData();
       formData.append('imageFile', this.imageInput.nativeElement.files[0]);
       this.httpService.request('POST', '/api/upload', formData)
         .subscribe((data: any) => {
-          this.sighting.image = data.image;
           this.sighting.id = crypto.randomUUID().toString();
           this.sighting.user_id = this.userId as string;
           this.sighting.report_id = this.reportId;
-          this.sighting.deleted = 0;
           this.sighting.content = this.sightingFormGroup.value.content;
           this.sighting.date_time = this.sightingFormGroup.value.date_time;
+          this.sighting.image = data.image;
+          this.sighting.deleted = 0;
           
           this.httpService.request('POST', '/api/sightings', this.sighting)
             .subscribe({
               next: (data: any) => {
-                alert("Sighting lodged");
+                alert(data.message);
                 this.router.navigate([`/pet-profile/${this.petId}`])
               },
               error: (data: any) => {
-                alert(data.error.message);
+                console.log(data.error.message)
               }
             });
         });
-    
   }
 
   initialiseSightingForm() {

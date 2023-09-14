@@ -15,7 +15,6 @@ import beacon.backend.models.Features;
 import beacon.backend.models.Pet;
 import beacon.backend.models.Report;
 import beacon.backend.records.FeaturesDto;
-import beacon.backend.records.LostDto;
 import beacon.backend.records.PetDto;
 import beacon.backend.records.ReportDto;
 import beacon.backend.repositories.PetRepository;

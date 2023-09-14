@@ -14,7 +14,6 @@ import beacon.backend.exceptions.AppException;
 import beacon.backend.models.Features;
 import beacon.backend.models.Pet;
 import beacon.backend.models.Report;
-import beacon.backend.records.LostDto;
 import beacon.backend.records.PetDto;
 import beacon.backend.records.ReportDto;
 
@@ -183,7 +182,6 @@ public class PetRepository {
     }
 
     public void putPetLostValue(String petId, String lostValue) {
-        System.out.println(petId + " >>>>>>>>>>>>>>>>>>> " + lostValue);
         int result = jdbcTemplate.update(SQL_UPDATE_PET_LOST, Integer.parseInt(lostValue), petId);
 
         if (result < 1) {
