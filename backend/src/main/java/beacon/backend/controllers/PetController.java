@@ -1,6 +1,8 @@
 package beacon.backend.controllers;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import beacon.backend.exceptions.AppException;
+import beacon.backend.models.Report;
 import beacon.backend.records.FeaturesDto;
 import beacon.backend.records.LostDto;
 import beacon.backend.records.PetDto;
@@ -24,7 +27,9 @@ import beacon.backend.records.ReportDto;
 import beacon.backend.services.PetService;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 
 @RestController
 @RequestMapping("/api/pets")
@@ -60,6 +65,45 @@ public class PetController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/reports")
+    public ResponseEntity<String> getReportsByRegion(
+        @RequestParam int page,
+        @RequestParam int pageSize,
+        @RequestParam String region) {
+        System.out.println(page);
+        System.out.println(pageSize);
+        System.out.println(region);
+        Optional<List<Report>> reportOptional = petService.getReportsByRegion(page, pageSize, region);
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        
+        if (reportOptional.isPresent()) {
+            reportOptional.ifPresent(reports -> {
+                JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+                reports.forEach(report -> {
+                    if (report != null) {
+                        JsonObjectBuilder reportBuilder = Json.createObjectBuilder()
+                        .add("id", report.getId())
+                        .add("pet_id", report.getPet_id())
+                        .add("lat", report.getLat())
+                        .add("lng", report.getLng())
+                        .add("date_time", report.getDate_time())
+                        .add("zone", report.getZone())
+                        .add("description", report.getDescription())
+                        .add("closed", report.getClosed());
+                        jsonArrayBuilder.add(reportBuilder);
+                    }
+                });
+                
+                JsonArray reportArray = jsonArrayBuilder.build();
+                jsonObjectBuilder.add("reports", reportArray);
+            });
+        }
+        else {
+            throw new AppException("Requested Reports do not exist", HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(jsonObjectBuilder.build().toString());
     }
 
     @PostMapping("/features")

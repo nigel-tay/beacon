@@ -14,6 +14,7 @@ import beacon.backend.exceptions.AppException;
 import beacon.backend.models.Features;
 import beacon.backend.models.Pet;
 import beacon.backend.models.Report;
+import beacon.backend.models.Sighting;
 import beacon.backend.records.PetDto;
 import beacon.backend.records.ReportDto;
 
@@ -28,6 +29,16 @@ public class PetRepository {
         SELECT * FROM report
         WHERE pet_id = ?
         AND closed = ?;
+    """;
+    private String SQL_SELECT_REPORTS_BY_REGION="""
+        SELECT * FROM report
+        WHERE zone = ?
+        AND closed = 0
+        LIMIT ? OFFSET ?;        
+    """;
+
+    private String SQL_SELECT_ALL_REPORTS="""
+        SELECT * FROM report WHERE closed = 0;
     """;
     private String SQL_INSERT_FEATURES = """
         INSERT INTO features (id, feature)
@@ -132,6 +143,51 @@ public class PetRepository {
             return Optional.of(r);
         }
         return Optional.empty();
+    }
+
+    public Optional<List<Report>> getReportsByRegion(int offset, int pageSize, String region) {
+        List<Report> returnedList = new ArrayList<>();
+        System.out.println(region);
+        if (region.isEmpty()) {
+            System.out.println("going into all regions");
+            SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_SELECT_ALL_REPORTS);
+            while(rs.next()) {
+            Report r = new Report(
+                rs.getString("id"),               
+                rs.getString("pet_id"),               
+                rs.getString("lat"),               
+                rs.getString("lng"),               
+                rs.getString("date_time"),               
+                rs.getString("zone"),               
+                rs.getString("description"),               
+                rs.getString("closed"));
+                returnedList.add(r);
+            }
+        }
+        else {
+            System.out.println("going into specficiccc regionnnnnn regions");
+            SqlRowSet rs = jdbcTemplate.queryForRowSet(SQL_SELECT_REPORTS_BY_REGION, region, pageSize, offset);
+            while(rs.next()) {
+            Report r = new Report(
+                rs.getString("id"),               
+                rs.getString("pet_id"),               
+                rs.getString("lat"),               
+                rs.getString("lng"),               
+                rs.getString("date_time"),               
+                rs.getString("zone"),               
+                rs.getString("description"),               
+                rs.getString("closed"));
+                System.out.println("REPORT HEREEEEEEEEE"+r.toString());
+            returnedList.add(r);
+            }
+        }
+        if (returnedList.isEmpty()) {
+            System.out.println("IM EMTPY>>"+returnedList);
+            return Optional.empty();
+        } else {
+            System.out.println("IM not empty>>"+returnedList);
+            return Optional.of(returnedList);
+        }
     }
 
     public String postFeatures(String feature, String featuresUuid) {

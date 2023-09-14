@@ -14,6 +14,7 @@ import beacon.backend.exceptions.AppException;
 import beacon.backend.models.Features;
 import beacon.backend.models.Pet;
 import beacon.backend.models.Report;
+import beacon.backend.models.Sighting;
 import beacon.backend.records.FeaturesDto;
 import beacon.backend.records.PetDto;
 import beacon.backend.records.ReportDto;
@@ -102,6 +103,11 @@ public class PetService {
                     .build();
         }
         return null;
+    }
+
+    public Optional<List<Report>> getReportsByRegion(int page, int pageSize, String region) {
+        int offset = (page - 1) * pageSize;
+        return petRepository.getReportsByRegion(offset, pageSize, region);
     }
 
     @Transactional(rollbackFor = Exception.class)

@@ -27,6 +27,10 @@ export class PetService {
     return this.httpService.request('GET', `/api/pets/reports/${petId}`, '');
   }
 
+  getAllReports(page: number, pageSize: number, region: string): Observable<any> {
+    return this.httpService.request('GET', `/api/pets/reports?page=${page}&pageSize=${pageSize}&region=${region}`, '');
+  }
+
   getAllSightings(page: number, pageSize: number, reportId: string): Observable<any> {
     return this.httpService.request('GET', `/api/sightings?page=${page}&pageSize=${pageSize}&reportId=${reportId}`, '');
   }

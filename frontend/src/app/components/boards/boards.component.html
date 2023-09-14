@@ -1,1 +1,18 @@
-<p>boards works!</p>
+<div class="flex flex-col w-[100vw] justify-center items-center">
+    <label for="region">Select region:</label>
+    <select id="region" name="region" [(ngModel)]="selectedRegion">
+      <option value="central">Central</option>
+      <option value="east">East</option>
+      <option value="north">North</option>
+      <option value="north-east">North East</option>
+      <option value="west">West</option>
+      <option value="others">Others</option>
+    </select>
+    <button
+        class="mt-5 text-md py-2 px-6 w-3/4 rounded-full border bg-blue-button  hover:bg-blue-button-hover"
+        type="button"
+        (click)="handleSearchReportsFromRegion(selectedRegion)">Search Region</button>
+    <div>
+        <div *ngFor="let report of reportsList">hello</div>
+    </div>
+</div>
