@@ -32,8 +32,8 @@
         <div *ngIf="registerForm.valid" 
             class="bg-yellow-primary px-2 py-2 mt-[-3.5%] w-[360px] rounded-md border flex justify-center items-center z-0"
             >
-            <mat-icon class="bg-blue-button-hover rounded-md">done</mat-icon>
-            <div class="ml-2">Good to go</div>
+            <mat-icon class="bg-blue-button-hover rounded-md ml-1 mr-3 w-full">done</mat-icon>
+            <div class="w-5/6">Good to go! Enable email notifications by filling up the address field. Or leave it empty, we're not your boss!</div>
         </div>
     </div>
     <form [formGroup]="registerForm" class="flex flex-col justify-center items-center sm:ml-5 lg:ml-[10%] mt-5">
@@ -42,12 +42,12 @@
         </div>
         <div class="bg-yellow-primary w-[350px] h-16 rounded-full flex items-center border">
             <mat-icon class="ml-5 scale-150">account_circle</mat-icon>
-            <input type="text" class="ml-5 w-[75%] h-4/5 text-2xl bg-yellow-primary focus:outline-none" formControlName="username" placeholder="username">
+            <input type="text" class="ml-5 w-[75%] h-4/5 text-lg bg-yellow-primary focus:outline-none" formControlName="username" placeholder="username">
         </div>
         <div class="mt-5 bg-yellow-primary w-[350px] h-16 rounded-full flex items-center border">
             <mat-icon class="ml-5 scale-150">email</mat-icon>
             <input type="text"
-                class="ml-5 w-[75%] h-4/5 text-2xl bg-yellow-primary focus:outline-none"
+                class="ml-5 w-[75%] h-4/5 text-lg bg-yellow-primary focus:outline-none"
                 placeholder="email"
                 formControlName="email">
         </div>
@@ -55,7 +55,7 @@
             <mat-icon class="ml-5 scale-150">lock</mat-icon>
             <input #passwordInput [type]="visibility ? 'text': 'password'"
                 autocomplete="on"
-                class="ml-5 w-[70%] h-4/5 text-2xl bg-yellow-primary focus:outline-none"
+                class="ml-5 w-[70%] h-4/5 text-lg bg-yellow-primary focus:outline-none"
                 placeholder="password"
                 formControlName="password">
             <mat-icon *ngIf="!visibility"class="scale-150 hover:cursor-pointer" (click)="toggleVisibility()">visibility_off</mat-icon>
@@ -64,7 +64,7 @@
         <div class="w-[350px] mt-5 bg-yellow-primary h-16 rounded-full flex items-center border">
             <mat-icon class="ml-5 scale-150">home</mat-icon>
             <input #addressInput type="text"
-                class="ml-5 w-[75%] h-4/5 text-2xl bg-yellow-primary focus:outline-none"
+                class="ml-5 w-[75%] h-4/5 text-lg bg-yellow-primary focus:outline-none"
                 placeholder="address (enables notifications)"
                 formControlName="address">
         </div>

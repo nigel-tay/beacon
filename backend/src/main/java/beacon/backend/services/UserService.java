@@ -51,9 +51,8 @@ public class UserService {
     public User register(SignUpDto signUpDto) {
         Optional<User> optionalUser = userRepository.findUserByUsername(signUpDto.username());
 
-        // You were implement the above repo's method
         if (optionalUser.isPresent()) {
-            throw new AppException("Username already exists", HttpStatus.BAD_REQUEST);
+            throw new AppException("Username already exists, try a different username", HttpStatus.BAD_REQUEST);
         }
 
         User user = new User(signUpDto.id(), signUpDto.username(), signUpDto.password().toString(), signUpDto.email(), signUpDto.address(), signUpDto.lat(), signUpDto.lng(), signUpDto.image());
