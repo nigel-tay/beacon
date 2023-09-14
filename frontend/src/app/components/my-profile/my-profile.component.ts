@@ -71,13 +71,13 @@ export class MyProfileComponent implements OnInit, AfterViewInit{
   }
 
   handleEditAddressSubmit() {
-    //they will be the same if
-    console.log(this.editAddressInput.nativeElement.value.trim.length);
+    console.log(this.editAddressInput.nativeElement.value.length);
     
-    if (this.user.address == this.copiedUser.address && this.editAddressInput.nativeElement.value.trim.length !== 0) {
+    if (this.user.address == this.copiedUser.address && this.editAddressInput.nativeElement.value.length !== 0) {
       alert('Please select an address from the dropdown');
+      return;
     }
-    else if (this.editAddressInput.nativeElement.value.trim.length === 0) {
+    else if (this.editAddressInput.nativeElement.value.trim.length === 0 && this.copiedUser.address === this.user.address) {
       this.copiedUser.address = "";
       this.copiedUser.lat = 0;
       this.copiedUser.lng = 0;

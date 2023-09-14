@@ -1,5 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap, MapInfoWindow, MapMarker, MapAnchorPoint } from '@angular/google-maps';
+import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pet } from 'src/app/interface/pet';
 import { Reports } from 'src/app/interface/reports';
@@ -46,6 +47,7 @@ export class PetProfileComponent implements OnInit{
   pageSize: number = 3;
   totalPages: number[] = [];
 
+  viewWidth!: number;
   markers = []  as  any;
   infoContent = '';
   zoom = 17;
@@ -67,10 +69,13 @@ export class PetProfileComponent implements OnInit{
     private petService: PetService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private store: Store<{ viewWidth: number }>,
   ){}
 
   ngOnInit(): void {
+    this.store.select('viewWidth')
+      .subscribe(data => this.viewWidth = data);
     this.userId = this.authService.getUserId();
     this.petService.getPetData(this.activatedRoute.snapshot.params['id'])
     .subscribe((data: any) => {
